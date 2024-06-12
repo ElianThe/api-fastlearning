@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\RegisterController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,9 +17,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::resource('products', ProductController::class);
+    Route::resource('folders', \App\Http\Controllers\API\FolderController::class);
+    Route::resource('folder-tree-folders', \App\Http\Controllers\API\FolderTreeFoldersController::class);
+    Route::resource('cards', \App\Http\Controllers\API\CardController::class);
+    Route::resource('tags', \App\Http\Controllers\API\TagController::class);
+    Route::resource('reviews', \App\Http\Controllers\API\ReviewController::class);
 });
 
-Route::controller(RegisterController::class)->group(function(){
-    Route::post('register', 'register');
-    Route::post('login', 'login');
-});
+Route::post('register', [RegisterController::class, 'register']);
+Route::post('login', [RegisterController::class, 'login']);

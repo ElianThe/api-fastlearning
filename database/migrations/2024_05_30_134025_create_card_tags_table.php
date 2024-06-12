@@ -17,7 +17,6 @@ return new class extends Migration
             $table->foreign('card_id')->references('id')->on('cards')->cascadeOnDelete();
             $table->unsignedBigInteger('tag_id');
             $table->foreign('tag_id')->references('id')->on('tags')->cascadeOnDelete();
-            $table->timestamps();
         });
     }
 

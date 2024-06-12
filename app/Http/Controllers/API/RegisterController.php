@@ -20,7 +20,8 @@ class RegisterController extends BaseController
     public function register(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
+            'first_name' => 'required',
+            'last_name' => "required",
             'email' => 'required|email',
             'password' => 'required',
             'c_password' => 'required|same:password',

@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('folders_tree_folder');
+        Schema::dropIfExists('folder_tree_folders');
     }
 };
