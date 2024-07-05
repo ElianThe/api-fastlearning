@@ -25,4 +25,4 @@ Route::middleware('auth:sanctum')->group(function () {
 
 Route::post('register', [RegisterController::class, 'register']);
 Route::post('login', [RegisterController::class, 'login']);
-Route::resource('products', ProductController::class);
+Route::post('logout', [RegisterController::class, 'logout']); // TODO

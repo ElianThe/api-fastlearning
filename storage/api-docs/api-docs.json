@@ -1,0 +1,244 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API for my application fast-learning",
+        "description": "Bienvenue sur la version 1 de la documentation API de fast-learning.<br><br><u>Condition préalable :</u><br><li>Avoir un compte utilisateur</li><br><li>Une clé d'application <b>key_app</b> vous sera donné ainsi que des identifiants de connexion (email et mot de passe)</li><br>",
+        "contact": {
+            "name": ": Pôle devéloppement",
+            "email": "elian.yutz@hotmail.fr"
+        },
+        "license": {
+            "name": "FAST LEARNING",
+            "url": "https:google.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:80/api",
+            "description": "Serveur API Rest"
+        }
+    ],
+    "paths": {
+        "/folders": {
+            "get": {
+                "tags": [
+                    "Dossier"
+                ],
+                "summary": "Permet de récupérer l'ensemble des dossiers",
+                "description": "Permet de récupérer l'ensemble des dossiers",
+                "operationId": "folder",
+                "responses": {
+                    "200": {
+                        "description": "Le dossier est retourné en cas de succès de la connexion",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Dossier"
+                ],
+                "summary": "création d'un dossier",
+                "description": "Permet de se créer un dossier via un nom de dossier et un id de dossier parent",
+                "operationId": "initFolder",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "",
+                                        "type": "string",
+                                        "example": "Dossier1"
+                                    },
+                                    "content": {
+                                        "description": "",
+                                        "type": "string",
+                                        "example": "Content of the folder"
+                                    },
+                                    "is_public": {
+                                        "description": "",
+                                        "type": "boolean",
+                                        "example": false
+                                    },
+                                    "created_by_user": {
+                                        "description": "",
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Le dossier est retourné en cas de succès de la connexion",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/register": {
+            "post": {
+                "tags": [
+                    "Authentification"
+                ],
+                "summary": "Permet de se créer un compte utilisateur",
+                "description": "Permet de se créer un compte utilisateur via une adresse mail/mot de passe/prénom/nom",
+                "operationId": "register",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "Adresse mail. A renseigner afin d'obtenir son token utilisateur (api_token (JWT))",
+                                        "type": "string",
+                                        "example": "johnnn@example.com"
+                                    },
+                                    "password": {
+                                        "description": "Mot de passe. A renseigner afin d'obtenir son token utilisateur (api_token (JWT))",
+                                        "type": "string",
+                                        "example": "password"
+                                    },
+                                    "c_password": {
+                                        "description": "Mot de passe. A renseigner afin d'obtenir son token utilisateur (api_token (JWT))",
+                                        "type": "string",
+                                        "example": "password"
+                                    },
+                                    "username": {
+                                        "description": "l'username",
+                                        "type": "string",
+                                        "example": "Jojon"
+                                    },
+                                    "first_name": {
+                                        "description": "Prénom de l'utilisateur",
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "last_name": {
+                                        "description": "Nom de l'utilisateur",
+                                        "type": "string",
+                                        "example": "Doe"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Le token est retourné en cas de succès de la connexion.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "tags": [
+                    "Authentification"
+                ],
+                "summary": "Permet de se connecter à l’API fast-learning",
+                "description": "Permet de se connecter à l’API.  via une adresse mail/mot de passe",
+                "operationId": "login",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "Adresse mail. A renseigner afin d'obtenir son token utilisateur (api_token (JWT))",
+                                        "type": "string",
+                                        "example": "john@example.com"
+                                    },
+                                    "password": {
+                                        "description": "Mot de passe. A renseigner afin d'obtenir son token utilisateur (api_token (JWT))",
+                                        "type": "string",
+                                        "example": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Le token est retourné en cas de succès de la connexion.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/logout": {
+            "post": {
+                "tags": [
+                    "Authentification"
+                ],
+                "summary": "Permet de se déconnecter de l’API fast-learning",
+                "description": "Permet de se déconnecter de l’API.  via une adresse mail/mot de passe",
+                "operationId": "logout",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "sanctum": {
+                "type": "apiKey",
+                "description": "Enter token in format (Bearer <token>)",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Authentification",
+            "description": "Connexion utilisateur à l'api."
+        },
+        {
+            "name": "Dossier",
+            "description": "Gestion dossier."
+        }
+    ]
+}

@@ -1,0 +1,17 @@
+[33mcommit 2d92cf030a73334e95700a23236920e523d24528[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: elian.guiffault <elian.guiffault@pmb-software.fr>
+Date:   Wed May 29 15:52:01 2024 +0200
+
+    ajout de la connexion avec Laravel breeze
+
+[33mcommit 362af7387b005fdd6ab07387b0320639d44a6d3a[m
+Author: ElianThe <guiffaul2u@etu.univ-lorraine.fr>
+Date:   Thu Jan 11 12:42:28 2024 +0100
+
+    initialisation du projet
+
+[33mcommit 982df3f034032b43b3e230aef560ba355ae9bd06[m
+Author: ElianThe <guiffaul2u@etu.univ-lorraine.fr>
+Date:   Thu Jan 11 12:40:08 2024 +0100
+
+    first commit
