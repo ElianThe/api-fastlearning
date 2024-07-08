@@ -24,6 +24,7 @@ class FolderFactory extends Factory
             'name' => fake()->title,
             'content' => fake()->words(5, true),
             'is_public' => fake()->boolean,
+            'type' => fake()->word,
             'created_by_user' => fake()->randomElement($userIds)
         ];
     }

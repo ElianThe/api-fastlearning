@@ -19,8 +19,8 @@ class ReviewFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::factory()->create()->id,
-            'card_id' => Card::factory()->create()->id,
+            'user_id' => User::first()->id,
+            'card_id' => Card::first()->id,
             'is_active' => fake()->boolean,
             'review_score' => fake()->numberBetween(1, 100),
             'review_date' => fake()->dateTime()
