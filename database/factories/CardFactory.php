@@ -19,13 +19,11 @@ class CardFactory extends Factory
     public function definition(): array
     {
         $folderIds = Folder::pluck('id')->toArray();
-        /*$folder_tree_folders = FolderTreeFoldersFactory::pluck('id')->toArray();*/
         return [
             'title' => fake()->title,
             'content' => fake()->words(15, true),
             'image_path' => fake()->filePath(),
             'folder_id' => fake()->randomElement($folderIds),
-            'folder_tree_folders_id' => null
         ];
     }
 }

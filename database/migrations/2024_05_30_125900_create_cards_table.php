@@ -18,8 +18,6 @@ return new class extends Migration
             $table->string('image_path')->nullable();
             $table->unsignedBigInteger('folder_id');
             $table->foreign('folder_id')->references('id')->on('folders')->cascadeOnDelete();
-            $table->unsignedBigInteger('folder_tree_folders_id')->nullable();
-            $table->foreign('folder_tree_folders_id')->references('id')->on('folder_tree_folders')->cascadeOnDelete();
             $table->timestamps();
         });
     }
