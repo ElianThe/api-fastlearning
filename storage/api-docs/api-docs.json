@@ -572,6 +572,218 @@
                 ]
             }
         },
+        "/reviews": {
+            "get": {
+                "tags": [
+                    "Review"
+                ],
+                "summary": "Permet de récupérer l'ensemble des revoir",
+                "description": "Permet de récupérer l'ensemble des revoir",
+                "operationId": "reviews",
+                "responses": {
+                    "200": {
+                        "description": "Le review est retourné en cas de succès de la connexion",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Review"
+                ],
+                "summary": "création d'une review",
+                "description": "Store a newly created review in storage.",
+                "operationId": "initReview",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "user_id": {
+                                        "description": "",
+                                        "type": "integer",
+                                        "example": 5
+                                    },
+                                    "card_id": {
+                                        "description": "",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "is_active": {
+                                        "description": "",
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "review_score": {
+                                        "description": "",
+                                        "type": "integer",
+                                        "example": 0
+                                    },
+                                    "review_date": {
+                                        "description": "The date of the review",
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-07-09"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Le dossier est retourné en cas de succès de la connexion",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "409": {
+                        "description": "Folder creation failed!"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/reviews/{id}": {
+            "get": {
+                "tags": [
+                    "Review"
+                ],
+                "summary": "Permet de récupérer une review",
+                "description": "Permet de récupérer une review",
+                "operationId": "review",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id d'une review",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Le dossier est retourné en cas de succès de la connexion",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Review"
+                ],
+                "summary": "Permet de supprimer une review",
+                "description": "Permet de supprimer une review",
+                "operationId": "deleteReviews",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id de la review",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Review"
+                ],
+                "summary": "Permet de mettre à jour une review",
+                "description": "Permet de mettre à jour une review",
+                "operationId": "updateReview",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id du dossier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "is_active": {
+                                        "description": "",
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "review_score": {
+                                        "description": "",
+                                        "type": "integer",
+                                        "example": 0
+                                    },
+                                    "review_date": {
+                                        "description": "The date of the review",
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-07-09"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Le dossier est retourné en cas de succès de la connexion",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/users": {
             "get": {
                 "tags": [
