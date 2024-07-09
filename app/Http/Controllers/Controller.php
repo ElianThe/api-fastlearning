@@ -27,17 +27,33 @@ use Illuminate\Routing\Controller as BaseController;
  *          bearerFormat="JWT"
  * ),
  * @OA\Server(
- *       url=L5_SWAGGER_CONST_HOST,
- *       description="Serveur API Rest"
+ *      url=L5_SWAGGER_CONST_HOST,
+ *      description="Serveur API Rest"
  *  )
  * @OA\Tag(
- *     name="Authentification",
- *     description="Connexion utilisateur à l'api."
+ *      name="Authentification",
+ *      description="Connexion utilisateur à l'api."
+ * ),
+ * @OA\Tag(
+ *      name="User",
+ *      description="Gestion Utilisateur."
  * ),
  * @OA\Tag(
  *      name="Dossier",
- *      description="Gestion dossier."
+ *      description="Gestion Dossier."
  * ),
+ * @OA\Tag(
+ *      name="Carte",
+ *      description="Gestion Carte."
+ * ),
+ * @OA\Tag(
+ *      name="Review",
+ *      description="Gestion Review."
+ * ),
+ * @OA\Tag(
+ *      name="Tags",
+ *      description="Gestion Tag."
+ *  ),
  */
 class Controller extends BaseController
 {

@@ -27,7 +27,7 @@
                 ],
                 "summary": "Permet de récupérer l'ensemble des dossiers",
                 "description": "Permet de récupérer l'ensemble des dossiers",
-                "operationId": "folder",
+                "operationId": "folders",
                 "responses": {
                     "200": {
                         "description": "Le dossier est retourné en cas de succès de la connexion",
@@ -47,7 +47,7 @@
                     "Dossier"
                 ],
                 "summary": "création d'un dossier",
-                "description": "Permet de se créer un dossier via un nom de dossier et un id de dossier parent",
+                "description": "Store a newly created folder in storage.",
                 "operationId": "initFolder",
                 "requestBody": {
                     "content": {
@@ -69,6 +69,11 @@
                                         "type": "boolean",
                                         "example": false
                                     },
+                                    "parent_id": {
+                                        "description": "",
+                                        "type": "integer",
+                                        "example": null
+                                    },
                                     "created_by_user": {
                                         "description": "",
                                         "type": "integer",
@@ -87,8 +92,145 @@
                             "application/json": {}
                         }
                     },
-                    "401": {
-                        "description": "Unauthenticated"
+                    "409": {
+                        "description": "Folder creation failed!"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/folders/{id}": {
+            "get": {
+                "tags": [
+                    "Dossier"
+                ],
+                "summary": "Permet de récupérer un dossier",
+                "description": "Permet de récupérer un dossier",
+                "operationId": "folder",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id du dossier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Le dossier est retourné en cas de succès de la connexion",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Dossier"
+                ],
+                "summary": "Permet de récupérer un dossier",
+                "description": "Permet de récupérer un dossier",
+                "operationId": "deleteFolder",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id du dossier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Dossier"
+                ],
+                "summary": "Permet de mettre à jour un dossier",
+                "description": "Permet de mettre à jour un dossier",
+                "operationId": "updateFolder",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id du dossier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "",
+                                        "type": "string",
+                                        "example": "Nouveau dossier 1"
+                                    },
+                                    "content": {
+                                        "description": "",
+                                        "type": "string",
+                                        "example": "Content of the folder"
+                                    },
+                                    "is_public": {
+                                        "description": "",
+                                        "type": "boolean",
+                                        "example": false
+                                    },
+                                    "parent_id": {
+                                        "description": "",
+                                        "type": "integer",
+                                        "example": null
+                                    },
+                                    "type": {
+                                        "description": "type",
+                                        "type": "string",
+                                        "example": "type"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Le dossier est retourné en cas de succès de la connexion",
+                        "content": {
+                            "application/json": {}
+                        }
                     }
                 },
                 "security": [
@@ -237,8 +379,24 @@
             "description": "Connexion utilisateur à l'api."
         },
         {
+            "name": "User",
+            "description": "Gestion Utilisateur."
+        },
+        {
             "name": "Dossier",
-            "description": "Gestion dossier."
+            "description": "Gestion Dossier."
+        },
+        {
+            "name": "Carte",
+            "description": "Gestion Carte."
+        },
+        {
+            "name": "Review",
+            "description": "Gestion Review."
+        },
+        {
+            "name": "Tags",
+            "description": "Gestion Tag."
         }
     ]
 }

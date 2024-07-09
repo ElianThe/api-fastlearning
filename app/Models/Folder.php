@@ -15,16 +15,13 @@ class Folder extends Model
         'name',
         'content',
         'is_public',
+        'parent_id',
+        'type',
         'created_by_user',
     ];
 
     public function users()
     {
         return $this->belongsToMany(User::class, 'users_folders', 'folder_id', 'user_id');
-    }
-
-    public function folder_tree_folders()
-    {
-        return $this->hasMany(FolderTreeFolders::class, 'folder_id', 'id');
     }
 }

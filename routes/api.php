@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::resource('folders', \App\Http\Controllers\API\FolderController::class);
-    Route::resource('folder-tree-folders', \App\Http\Controllers\API\FolderTreeFoldersController::class);
     Route::resource('cards', \App\Http\Controllers\API\CardController::class);
     Route::resource('tags', \App\Http\Controllers\API\TagController::class);
     Route::resource('reviews', \App\Http\Controllers\API\ReviewController::class);
