@@ -361,6 +361,163 @@
                     }
                 ]
             }
+        },
+        "/users": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Permet de récupérer l'ensemble des users",
+                "description": "Permet de récupérer l'ensemble des users",
+                "operationId": "users",
+                "responses": {
+                    "200": {
+                        "description": "Les users est retourné en cas de succès de la connexion",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Permet de récupérer un user",
+                "description": "Permet de récupérer un user",
+                "operationId": "user",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id du user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Le dossier est retourné en cas de succès de la connexion",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Permet de récupérer un utilisateur",
+                "description": "Permet de récupérer un utilisateur",
+                "operationId": "deleteUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id de l'utilisateur",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Permet de mettre à jour un user",
+                "description": "Permet de mettre à jour un user",
+                "operationId": "updateUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id du user",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "username": {
+                                        "description": "",
+                                        "type": "string",
+                                        "example": "UserName"
+                                    },
+                                    "first_name": {
+                                        "description": "",
+                                        "type": "boolean",
+                                        "example": "FirstName"
+                                    },
+                                    "last_name": {
+                                        "description": "",
+                                        "type": "string",
+                                        "example": "LastName"
+                                    },
+                                    "settings": {
+                                        "description": "",
+                                        "type": "string",
+                                        "example": {
+                                            "background": "dark"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Le user est retourné en cas de succès",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
         }
     },
     "components": {
