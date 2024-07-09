@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\API\ProductController;
 use App\Http\Controllers\API\RegisterController;
 use Illuminate\Support\Facades\Route;
 
