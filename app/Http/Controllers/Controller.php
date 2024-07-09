@@ -51,7 +51,7 @@ use Illuminate\Routing\Controller as BaseController;
  *      description="Gestion Review."
  * ),
  * @OA\Tag(
- *      name="Tags",
+ *      name="Tag",
  *      description="Gestion Tag."
  *  ),
  */
