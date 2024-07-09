@@ -20,6 +20,216 @@
         }
     ],
     "paths": {
+        "/cards": {
+            "get": {
+                "tags": [
+                    "Carte"
+                ],
+                "summary": "Permet de récupérer l'ensemble des cartes",
+                "description": "Permet de récupérer l'ensemble des cartes",
+                "operationId": "cards",
+                "responses": {
+                    "200": {
+                        "description": "La carte est retourné en cas de succès de la connexion",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Carte"
+                ],
+                "summary": "création d'une carte",
+                "description": "Création d'une carte",
+                "operationId": "initCard",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "description": "",
+                                        "type": "string",
+                                        "example": "Carte1"
+                                    },
+                                    "content": {
+                                        "description": "",
+                                        "type": "string",
+                                        "example": "Contenu de la carte"
+                                    },
+                                    "image_path": {
+                                        "description": "",
+                                        "type": "boolean",
+                                        "example": "/tmp/fakerFerad.jpg"
+                                    },
+                                    "folder_id": {
+                                        "description": "",
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "La carte est retournée en cas de succès de la connexion",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "409": {
+                        "description": "Card creation failed!"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/cards/{id}": {
+            "get": {
+                "tags": [
+                    "Carte"
+                ],
+                "summary": "Permet de récupérer une carte",
+                "description": "Permet de récupérer une carte",
+                "operationId": "card",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id de la carte",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Le dossier est retourné en cas de succès de la connexion",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Carte"
+                ],
+                "summary": "Permet de supprimer une carte",
+                "description": "Permet de supprimer un dossier",
+                "operationId": "deleteCard",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id du dossier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Carte"
+                ],
+                "summary": "Permet de mettre à jour une carte",
+                "description": "Permet de mettre à jour une carte",
+                "operationId": "updateCard",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id de la carte",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "description": "",
+                                        "type": "string",
+                                        "example": "Nouveau Titre"
+                                    },
+                                    "content": {
+                                        "description": "",
+                                        "type": "string",
+                                        "example": "Contenu de la carte"
+                                    },
+                                    "image_path": {
+                                        "description": "",
+                                        "type": "boolean",
+                                        "example": "/tmp/fakerFB2HTD"
+                                    },
+                                    "folder_id": {
+                                        "description": "",
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "La carte est retournée en cas de succès de la connexion",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/folders": {
             "get": {
                 "tags": [
@@ -141,8 +351,8 @@
                 "tags": [
                     "Dossier"
                 ],
-                "summary": "Permet de récupérer un dossier",
-                "description": "Permet de récupérer un dossier",
+                "summary": "Permet de supprimer un dossier",
+                "description": "Permet de supprimer un dossier",
                 "operationId": "deleteFolder",
                 "parameters": [
                     {
