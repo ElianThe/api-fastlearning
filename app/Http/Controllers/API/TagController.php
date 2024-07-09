@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Requests\TagStoreRequest;
-use App\Http\Requests\TagUpdateRequest;
+use App\Http\Requests\Tag\TagStoreRequest;
+use App\Http\Requests\Tag\TagUpdateRequest;
 use App\Http\Resources\TagRessource;
 use App\Models\Tag;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
 
 class TagController extends BaseController
 {
