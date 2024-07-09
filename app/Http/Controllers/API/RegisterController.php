@@ -20,11 +20,10 @@ class RegisterController extends BaseController
      *     @OA\RequestBody(
      *          @OA\JsonContent(
      *              @OA\Property(property="email", type="string",description="Adresse mail. A renseigner afin d'obtenir son token utilisateur (api_token (JWT))",example="johnnn@example.com"),
-     *              @OA\Property(property="password", type="string",description="Mot de passe. A renseigner afin d'obtenir son token utilisateur (api_token (JWT))",example="password"),
-     *              @OA\Property(property="c_password", type="string",description="Mot de passe. A renseigner afin d'obtenir son token utilisateur (api_token (JWT))",example="password"),
      *              @OA\Property(property="username", type="string",description="l'username",example="Jojon"),
      *              @OA\Property(property="first_name", type="string",description="Prénom de l'utilisateur",example="John"),
      *              @OA\Property(property="last_name", type="string",description="Nom de l'utilisateur",example="Doe"),
+     *              @OA\Property(property="password", type="string",description="Mot de passe.",example="password"),
      *           ),
      *      ),
      *     @OA\Response(
@@ -39,17 +38,17 @@ class RegisterController extends BaseController
     public function register(Request $request): JsonResponse
     {
         $validator = Validator::make($request->all(), [
+            'email' => 'required|email|unique:users,email',
+            'username' => 'required|unique:users,username',
             'first_name' => 'required',
             'last_name' => "required",
-            'email' => 'required|email|unique:users,email',
             'password' => 'required',
-            'c_password' => 'required|same:password',
         ]);
         if ($validator->fails()) {
             return $this->sendError('Validation Error.', (array)$validator->errors());
         }
         $input = $request->all();
-        $input['password'] = bcrypt($input['password']);
+        $input['password'] = bcrypt($input['password']) ?? bcrypt('password');
         $input['role'] = 1;
         $input['status'] = "active";
         $user = User::create($input);

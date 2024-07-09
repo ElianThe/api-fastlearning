@@ -468,16 +468,6 @@
                                         "type": "string",
                                         "example": "johnnn@example.com"
                                     },
-                                    "password": {
-                                        "description": "Mot de passe. A renseigner afin d'obtenir son token utilisateur (api_token (JWT))",
-                                        "type": "string",
-                                        "example": "password"
-                                    },
-                                    "c_password": {
-                                        "description": "Mot de passe. A renseigner afin d'obtenir son token utilisateur (api_token (JWT))",
-                                        "type": "string",
-                                        "example": "password"
-                                    },
                                     "username": {
                                         "description": "l'username",
                                         "type": "string",
@@ -492,6 +482,11 @@
                                         "description": "Nom de l'utilisateur",
                                         "type": "string",
                                         "example": "Doe"
+                                    },
+                                    "password": {
+                                        "description": "Mot de passe. A renseigner afin d'obtenir son token utilisateur (api_token (JWT))",
+                                        "type": "string",
+                                        "example": "password"
                                     }
                                 },
                                 "type": "object"

@@ -11,10 +11,6 @@ use Illuminate\Http\Request;
 
 class FolderController extends BaseController
 {
-    public function __construct()
-    {
-        $this->middleware('auth:sanctum');
-    }
 
     /** @OA\Get(
      *      path="/folders",
@@ -73,8 +69,7 @@ class FolderController extends BaseController
             $validatedData = $request->validated(); // Utilisation de validated pour récupérer les données validées
 
             $folder = Folder::create($validatedData);
-
-            return response()->json(['message' => 'Folder created successfully'], 201);
+            return $this->sendResponse(new FolderResource($folder), 'Folder created successfully.', 201);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Folder creation failed!', 'error' => $e->getMessage()], 409);
         }
@@ -108,12 +103,18 @@ class FolderController extends BaseController
      */
     public function show(string $id)
     {
-        $folder = Folder::find($id);
-        return $folder;
+        try {
+            $folder = Folder::findOrFail($id);
+            return $this->sendResponse(new FolderResource($folder), 'Folder retrieved successfully.');
+        } catch (ModelNotFoundException $e) {
+            return response()->json(['message' => 'Folder not found', 'error' => $e->getMessage()], 404);
+        }
     }
 
     /** @OA\Patch(
      *     path="/folders/{id}",
+     *     summary="Permet de mettre à jour un dossier",
+     *     description="Permet de mettre à jour un dossier",
      *     operationId="updateFolder",
      *     tags={"Dossier"},
      *     security={
@@ -138,8 +139,6 @@ class FolderController extends BaseController
      *                type="integer"
      *            )
      *      ),
-     *      summary="Permet de mettre à jour un dossier",
-     *      description="Permet de mettre à jour un dossier",
      *     @OA\Response(
      *           response=200,
      *           description="Le dossier est retourné en cas de succès de la connexion",
@@ -147,7 +146,7 @@ class FolderController extends BaseController
      *        ),
      * )
      */
-    public function update(FolderUpdateRequest $request, string $id)
+    public function update(FolderUpdateRequest $request, int $id)
     {
         try {
             $validatedData = $request->validated();
@@ -157,7 +156,7 @@ class FolderController extends BaseController
             $folder = Folder::findOrFail($id);
             $folder->fill($validatedData);
             $folder->save();
-            return response()->json(['message' => 'Folder updated successfully'], 200);
+            return $this->sendResponse(new FolderResource($folder), 'Folder updated successfully.');
         } catch (\Exception $e) {
             return response()->json(['message' => 'Folder update failed!', 'error' => $e->getMessage()], 409);
         }
@@ -168,8 +167,8 @@ class FolderController extends BaseController
      *      path="/folders/{id}",
      *      operationId="deleteFolder",
      *      tags={"Dossier"},
-     *      summary="Permet de récupérer un dossier",
-     *      description="Permet de récupérer un dossier",
+     *      summary="Permet de supprimer un dossier",
+     *      description="Permet de supprimer un dossier",
      *      security={
      *            {"sanctum": {}},
      *        },
@@ -192,14 +191,14 @@ class FolderController extends BaseController
      *      ),
      *  )
      */
-    public function destroy(string $id)
+    public function destroy(int $id)
     {
         try {
             $folder = Folder::findOrFail($id);
             $folder->delete();
-            return response()->json(['message' => 'Folder deleted successfully'], 200);
+            return $this->sendResponse(new FolderResource($folder), 'Folder deleted successfully.');
         } catch (ModelNotFoundException $e) {
-            return response()->json(['message' => 'Folder not found', 'error' => $e->getMessage()], 404);
+            return $this->sendError('Folder not found', (array)$e->getMessage(), 404);
         }
     }
 }
