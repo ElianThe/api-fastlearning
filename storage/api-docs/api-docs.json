@@ -1,14 +1,14 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "API for my application fast-learning",
-        "description": "Bienvenue sur la version 1 de la documentation API de fast-learning.<br><br><u>Condition préalable :</u><br><li>Avoir un compte utilisateur</li><br><li>Une clé d'application <b>key_app</b> vous sera donné ainsi que des identifiants de connexion (email et mot de passe)</li><br>",
+        "title": "API fast-learning",
+        "description": "Bienvenue sur la version 1 de la documentation API de fast-learning.<br><br><u>Condition préalable :</u><br><li>Avoir un compte utilisateur</li><br><li>Une clé d'application <b>apiKey</b> vous sera donné lorsque que vous vous connectez. Utilisé là pour faire des requêtes</li><br>",
         "contact": {
-            "name": ": Pôle devéloppement",
+            "name": ": TODO AFTER THE SERVER IS ONLINE",
             "email": "elian.yutz@hotmail.fr"
         },
         "license": {
-            "name": "FAST LEARNING",
+            "name": "TODO AFTER THE SERVER IS ONLINE",
             "url": "https:google.com"
         },
         "version": "1.0.0"
@@ -25,12 +25,18 @@
                 "tags": [
                     "Carte"
                 ],
-                "summary": "Permet de récupérer l'ensemble des cartes",
-                "description": "Permet de récupérer l'ensemble des cartes",
+                "summary": "Permet de récupérer l'ensemble des cartes.",
+                "description": "Permet de récupérer l'ensemble des cartes.",
                 "operationId": "cards",
                 "responses": {
                     "200": {
-                        "description": "La carte est retourné en cas de succès de la connexion",
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
                         "content": {
                             "application/json": {}
                         }
@@ -82,13 +88,28 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "La carte est retournée en cas de succès de la connexion",
+                        "description": "Created success",
                         "content": {
                             "application/json": {}
                         }
                     },
-                    "409": {
-                        "description": "Card creation failed!"
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {}
+                        }
                     }
                 },
                 "security": [
@@ -103,8 +124,8 @@
                 "tags": [
                     "Carte"
                 ],
-                "summary": "Permet de récupérer une carte",
-                "description": "Permet de récupérer une carte",
+                "summary": "Permet de récupérer une carte.",
+                "description": "Permet de récupérer une carte.",
                 "operationId": "card",
                 "parameters": [
                     {
@@ -120,7 +141,19 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Le dossier est retourné en cas de succès de la connexion",
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
                         "content": {
                             "application/json": {}
                         }
@@ -153,7 +186,25 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "successful",
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "content": {
                             "application/json": {}
                         }
@@ -169,8 +220,8 @@
                 "tags": [
                     "Carte"
                 ],
-                "summary": "Permet de mettre à jour une carte",
-                "description": "Permet de mettre à jour une carte",
+                "summary": "Permet de mettre à jour une carte.",
+                "description": "Permet de mettre à jour une carte.",
                 "operationId": "updateCard",
                 "parameters": [
                     {
@@ -217,7 +268,37 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "La carte est retournée en cas de succès de la connexion",
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "400": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "content": {
                             "application/json": {}
                         }
@@ -240,7 +321,13 @@
                 "operationId": "folders",
                 "responses": {
                     "200": {
-                        "description": "Le dossier est retourné en cas de succès de la connexion",
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
                         "content": {
                             "application/json": {}
                         }
@@ -297,13 +384,28 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Le dossier est retourné en cas de succès de la connexion",
+                        "description": "Created success",
                         "content": {
                             "application/json": {}
                         }
                     },
-                    "409": {
-                        "description": "Folder creation failed!"
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {}
+                        }
                     }
                 },
                 "security": [
@@ -335,7 +437,19 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Le dossier est retourné en cas de succès de la connexion",
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
                         "content": {
                             "application/json": {}
                         }
@@ -368,7 +482,25 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "successful",
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "content": {
                             "application/json": {}
                         }
@@ -437,7 +569,37 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Le dossier est retourné en cas de succès de la connexion",
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "400": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "content": {
                             "application/json": {}
                         }
@@ -456,7 +618,7 @@
                     "Authentification"
                 ],
                 "summary": "Permet de se créer un compte utilisateur",
-                "description": "Permet de se créer un compte utilisateur via une adresse mail/mot de passe/prénom/nom",
+                "description": "Permet de se créer un compte utilisateur. Il faut renseigner l'adresse mail et le username qui doit être des identifiants uniques, le mot de passe, le prénom et le nom",
                 "operationId": "register",
                 "requestBody": {
                     "content": {
@@ -484,7 +646,7 @@
                                         "example": "Doe"
                                     },
                                     "password": {
-                                        "description": "Mot de passe. A renseigner afin d'obtenir son token utilisateur (api_token (JWT))",
+                                        "description": "Mot de passe.",
                                         "type": "string",
                                         "example": "password"
                                     }
@@ -495,8 +657,20 @@
                     }
                 },
                 "responses": {
-                    "200": {
-                        "description": "Le token est retourné en cas de succès de la connexion.",
+                    "201": {
+                        "description": "Created success",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
                         "content": {
                             "application/json": {}
                         }
@@ -510,7 +684,7 @@
                     "Authentification"
                 ],
                 "summary": "Permet de se connecter à l’API fast-learning",
-                "description": "Permet de se connecter à l’API.  via une adresse mail/mot de passe",
+                "description": "Permet de se connecter à l’API.  Il faut renseigner une adresse mail/un mot de passe",
                 "operationId": "login",
                 "requestBody": {
                     "required": true,
@@ -519,12 +693,12 @@
                             "schema": {
                                 "properties": {
                                     "email": {
-                                        "description": "Adresse mail. A renseigner afin d'obtenir son token utilisateur (api_token (JWT))",
+                                        "description": "Adresse mail",
                                         "type": "string",
                                         "example": "john@example.com"
                                     },
                                     "password": {
-                                        "description": "Mot de passe. A renseigner afin d'obtenir son token utilisateur (api_token (JWT))",
+                                        "description": "Mot de passe",
                                         "type": "string",
                                         "example": "password"
                                     }
@@ -536,7 +710,25 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Le token est retourné en cas de succès de la connexion.",
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
                         "content": {
                             "application/json": {}
                         }
@@ -550,11 +742,11 @@
                     "Authentification"
                 ],
                 "summary": "Permet de se déconnecter de l’API fast-learning",
-                "description": "Permet de se déconnecter de l’API.  via une adresse mail/mot de passe",
+                "description": "Permet de se déconnecter de l’API.",
                 "operationId": "logout",
                 "responses": {
                     "200": {
-                        "description": "",
+                        "description": "Successful operation",
                         "content": {
                             "application/json": {}
                         }
@@ -572,12 +764,18 @@
                 "tags": [
                     "Review"
                 ],
-                "summary": "Permet de récupérer l'ensemble des revoir",
-                "description": "Permet de récupérer l'ensemble des revoir",
+                "summary": "Permet de récupérer l'ensemble des reviews",
+                "description": "Permet de récupérer l'ensemble des reviews",
                 "operationId": "reviews",
                 "responses": {
                     "200": {
-                        "description": "Le review est retourné en cas de succès de la connexion",
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
                         "content": {
                             "application/json": {}
                         }
@@ -594,7 +792,7 @@
                     "Review"
                 ],
                 "summary": "création d'une review",
-                "description": "Store a newly created review in storage.",
+                "description": "création d'une review",
                 "operationId": "initReview",
                 "requestBody": {
                     "content": {
@@ -635,13 +833,28 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Le dossier est retourné en cas de succès de la connexion",
+                        "description": "Created success",
                         "content": {
                             "application/json": {}
                         }
                     },
-                    "409": {
-                        "description": "Folder creation failed!"
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {}
+                        }
                     }
                 },
                 "security": [
@@ -673,7 +886,19 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Le dossier est retourné en cas de succès de la connexion",
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
                         "content": {
                             "application/json": {}
                         }
@@ -706,7 +931,25 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "successful",
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "content": {
                             "application/json": {}
                         }
@@ -766,7 +1009,37 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Le dossier est retourné en cas de succès de la connexion",
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "400": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "content": {
                             "application/json": {}
                         }
@@ -789,7 +1062,13 @@
                 "operationId": "tags",
                 "responses": {
                     "200": {
-                        "description": "Le tag est retourné en cas de succès de la connexion",
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
                         "content": {
                             "application/json": {}
                         }
@@ -831,13 +1110,28 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Le dossier est retourné en cas de succès de la connexion",
+                        "description": "Created success",
                         "content": {
                             "application/json": {}
                         }
                     },
-                    "409": {
-                        "description": "Folder creation failed!"
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {}
+                        }
                     }
                 },
                 "security": [
@@ -869,7 +1163,19 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Le dossier est retourné en cas de succès de la connexion",
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
                         "content": {
                             "application/json": {}
                         }
@@ -902,7 +1208,25 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "successful",
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "content": {
                             "application/json": {}
                         }
@@ -956,7 +1280,37 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Le tag est retourné en cas de succès de la connexion",
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "400": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "content": {
                             "application/json": {}
                         }
@@ -979,7 +1333,13 @@
                 "operationId": "users",
                 "responses": {
                     "200": {
-                        "description": "Les users est retourné en cas de succès de la connexion",
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
                         "content": {
                             "application/json": {}
                         }
@@ -1014,7 +1374,19 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Le dossier est retourné en cas de succès de la connexion",
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
                         "content": {
                             "application/json": {}
                         }
@@ -1030,8 +1402,8 @@
                 "tags": [
                     "User"
                 ],
-                "summary": "Permet de récupérer un utilisateur",
-                "description": "Permet de récupérer un utilisateur",
+                "summary": "Permet de supprimer un utilisateur",
+                "description": "Permet de supprimer un utilisateur",
                 "operationId": "deleteUser",
                 "parameters": [
                     {
@@ -1047,7 +1419,25 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "successful",
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "content": {
                             "application/json": {}
                         }
@@ -1063,8 +1453,6 @@
                 "tags": [
                     "User"
                 ],
-                "summary": "Permet de mettre à jour un user",
-                "description": "Permet de mettre à jour un user",
                 "operationId": "updateUser",
                 "parameters": [
                     {
@@ -1112,8 +1500,26 @@
                     }
                 },
                 "responses": {
-                    "200": {
-                        "description": "Le user est retourné en cas de succès",
+                    "201": {
+                        "description": "Created success",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
                         "content": {
                             "application/json": {}
                         }

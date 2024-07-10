@@ -6,23 +6,25 @@ use App\Http\Requests\User\UserUpdateRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
 
 class UserController extends BaseController
 {
     /** @OA\Get(
      *      path="/users",
-     *       summary="Permet de récupérer l'ensemble des users",
-     *       description="Permet de récupérer l'ensemble des users",
+     *      summary="Permet de récupérer l'ensemble des users",
+     *      description="Permet de récupérer l'ensemble des users",
      *      operationId="users",
      *      tags={"User"},
-     *      security={
-     *          {"sanctum": {}},
-     *      },
+     *      security={{ "sanctum": {} }},
      *      @OA\Response(
      *           response=200,
-     *           description="Les users est retourné en cas de succès de la connexion",
-     *           @OA\MediaType( mediaType="application/json" )
+     *           description="Successful operation",
+     *           @OA\MediaType(mediaType="application/json")
+     *      ),
+     *      @OA\Response(
+     *           response=401,
+     *           description="Unauthorized",
+     *           @OA\MediaType(mediaType="application/json")
      *      ),
      * )
      */
@@ -38,24 +40,32 @@ class UserController extends BaseController
      *     description="Permet de récupérer un user",
      *     operationId="user",
      *     tags={"User"},
-     *     security={
-     *          {"sanctum": {}},
-     *      },
-     *      @OA\Parameter(
-     *            description="id du user",
-     *            in="path",
-     *            name="id",
-     *            required=true,
-     *            example="1",
-     *            @OA\Schema(
-     *                type="integer"
-     *            )
-     *      ),
+     *     security={{ "sanctum": {} }},
+     *     @OA\Parameter(
+     *          description="id du user",
+     *          in="path",
+     *          name="id",
+     *          required=true,
+     *          example="1",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *     ),
      *     @OA\Response(
-     *           response=200,
-     *           description="Le dossier est retourné en cas de succès de la connexion",
-     *           @OA\MediaType( mediaType="application/json" )
-     *        ),
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\MediaType(mediaType="application/json")
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized",
+     *          @OA\MediaType(mediaType="application/json")
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Not Found",
+     *          @OA\MediaType(mediaType="application/json")
+     *     ),
      * )
      */
     public function show(string $id)
@@ -72,34 +82,45 @@ class UserController extends BaseController
      *     path="/users/{id}",
      *     operationId="updateUser",
      *     tags={"User"},
-     *     security={
-     *          {"sanctum": {}},
-     *      },
+     *     security={{ "sanctum": {} }},
      *     @OA\RequestBody(
-     *           @OA\JsonContent(
+     *          @OA\JsonContent(
      *               @OA\Property(property="username", type="string",description="",example="UserName"),
      *               @OA\Property(property="first_name", type="boolean",description="",example="FirstName"),
      *               @OA\Property(property="last_name", type="string",description="",example="LastName"),
      *               @OA\Property(property="settings", type="string",description="",example={"background": "dark"}),
-     *           ),
-     *      ),
-     *      @OA\Parameter(
-     *            description="id du user",
-     *            in="path",
-     *            name="id",
-     *            required=true,
-     *            example="1",
-     *            @OA\Schema(
-     *                type="integer"
-     *            )
-     *      ),
-     *      summary="Permet de mettre à jour un user",
-     *      description="Permet de mettre à jour un user",
+     *          ),
+     *     ),
+     *     @OA\Parameter(
+     *          description="id du user",
+     *          in="path",
+     *          name="id",
+     *          required=true,
+     *          example="1",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *     ),
      *     @OA\Response(
-     *           response=200,
-     *           description="Le user est retourné en cas de succès",
-     *           @OA\MediaType( mediaType="application/json" )
-     *        ),
+     *          response=201,
+     *          description="Created success",
+     *          @OA\MediaType( mediaType="application/json" )
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized",
+     *          @OA\MediaType(mediaType="application/json")
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Unprocessable Entity",
+     *          @OA\MediaType(mediaType="application/json")
+     *      ),
+     *      @OA\Response(
+     *          response=500,
+     *          description="Internal Server Error",
+     *          @OA\MediaType(mediaType="application/json")
+     *      ),
      * )
      */
     public function update(UserUpdateRequest $request, int $id)
@@ -123,29 +144,40 @@ class UserController extends BaseController
     /**
      * @OA\Delete(
      *      path="/users/{id}",
+     *      summary="Permet de supprimer un utilisateur",
+     *      description="Permet de supprimer un utilisateur",
      *      operationId="deleteUser",
      *      tags={"User"},
-     *      summary="Permet de récupérer un utilisateur",
-     *      description="Permet de récupérer un utilisateur",
-     *      security={
-     *            {"sanctum": {}},
-     *        },
+     *      security={{ "sanctum": {} }},
      *      @OA\Parameter(
-     *             description="id de l'utilisateur",
-     *             in="path",
-     *             name="id",
-     *             required=true,
-     *             example="1",
-     *             @OA\Schema(
-     *                 type="integer"
-     *             )
-     *       ),
+     *           description="id de l'utilisateur",
+     *           in="path",
+     *           name="id",
+     *           required=true,
+     *           example="1",
+     *           @OA\Schema(
+     *               type="integer"
+     *           )
+     *      ),
      *      @OA\Response(
-     *          response=200,
-     *          description="successful",
-     *          @OA\MediaType(
-     *              mediaType="application/json",
-     *          )
+     *           response=200,
+     *           description="Successful operation",
+     *           @OA\MediaType(mediaType="application/json")
+     *      ),
+     *      @OA\Response(
+     *           response=401,
+     *           description="Unauthorized",
+     *           @OA\MediaType(mediaType="application/json")
+     *      ),
+     *      @OA\Response(
+     *           response=404,
+     *           description="Not Found",
+     *           @OA\MediaType(mediaType="application/json")
+     *      ),
+     *      @OA\Response(
+     *           response=500,
+     *           description="Internal Server Error",
+     *           @OA\MediaType(mediaType="application/json")
      *      ),
      *  )
      */

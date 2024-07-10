@@ -16,13 +16,16 @@ class TagController extends BaseController
      *      description="Permet de récupérer l'ensemble des tags",
      *      operationId="tags",
      *      tags={"Tag"},
-     *      security={
-     *          {"sanctum": {}},
-     *      },
+     *      security={{ "sanctum": {} }},
      *      @OA\Response(
      *           response=200,
-     *           description="Le tag est retourné en cas de succès de la connexion",
-     *           @OA\MediaType( mediaType="application/json" )
+     *           description="Successful operation",
+     *           @OA\MediaType(mediaType="application/json")
+     *      ),
+     *      @OA\Response(
+     *           response=401,
+     *           description="Unauthorized",
+     *           @OA\MediaType(mediaType="application/json")
      *      ),
      * )
      */
@@ -38,35 +41,43 @@ class TagController extends BaseController
      *      description="Store a newly created tag in storage.",
      *      operationId="initTag",
      *      tags={"Tag"},
-     *      security={
-     *           {"sanctum": {}},
-     *       },
+     *      security={{ "sanctum": {} }},
      *      @OA\RequestBody(
-     *          @OA\JsonContent(
-     *              @OA\Property(property="name", type="string",description="",example="Dossier1"),
-     *              @OA\Property(property="type", type="string",description="",example="Type de tag"),
-     *          ),
+     *           @OA\JsonContent(
+     *                @OA\Property(property="name", type="string",description="",example="Dossier1"),
+     *                @OA\Property(property="type", type="string",description="",example="Type de tag"),
+     *           ),
      *      ),
-     *     @OA\Response(
+     *      @OA\Response(
      *           response=201,
-     *           description="Le dossier est retourné en cas de succès de la connexion",
+     *           description="Created success",
      *           @OA\MediaType( mediaType="application/json" )
+     *      ),
+     *      @OA\Response(
+     *           response=401,
+     *           description="Unauthorized",
+     *           @OA\MediaType(mediaType="application/json")
+     *      ),
+     *      @OA\Response(
+     *           response=422,
+     *           description="Unprocessable Entity",
+     *           @OA\MediaType(mediaType="application/json")
      *     ),
      *     @OA\Response(
-     *             response=409,
-     *             description="Folder creation failed!",
+     *           response=500,
+     *           description="Internal Server Error",
+     *           @OA\MediaType(mediaType="application/json")
      *     ),
      *  )
      */
     public function store(TagStoreRequest $request)
     {
         try {
-            $validatedData = $request->validated(); // Utilisation de validated pour récupérer les données validées
-
+            $validatedData = $request->validated();
             $tag = Tag::create($validatedData);
             return $this->sendResponse(new TagRessource($tag), 'Folder created successfully.', 201);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Folder creation failed!', 'error' => $e->getMessage()], 409);
+            return $this->sendError('Tag creation failed!', [$e->getMessage()], 500);
         }
     }
 
@@ -76,24 +87,32 @@ class TagController extends BaseController
      *     description="Permet de récupérer un tag",
      *     operationId="tag",
      *     tags={"Tag"},
-     *     security={
-     *          {"sanctum": {}},
-     *      },
-     *      @OA\Parameter(
-     *            description="id du tag",
-     *            in="path",
-     *            name="id",
-     *            required=true,
-     *            example="1",
-     *            @OA\Schema(
-     *                type="integer"
-     *            )
-     *      ),
+     *     security={{ "sanctum": {} }},
+     *     @OA\Parameter(
+     *          description="id du tag",
+     *          in="path",
+     *          name="id",
+     *          required=true,
+     *          example="1",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *     ),
      *     @OA\Response(
-     *           response=200,
-     *           description="Le dossier est retourné en cas de succès de la connexion",
-     *           @OA\MediaType( mediaType="application/json" )
-     *        ),
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\MediaType(mediaType="application/json")
+     *     ),
+     *     @OA\Response(
+     *          response=401,
+     *          description="Unauthorized",
+     *          @OA\MediaType(mediaType="application/json")
+     *     ),
+     *     @OA\Response(
+     *          response=404,
+     *          description="Not Found",
+     *          @OA\MediaType(mediaType="application/json")
+     *     ),
      * )
      */
     public function show(string $id)
@@ -102,7 +121,7 @@ class TagController extends BaseController
             $tag = Tag::findOrFail($id);
             return $this->sendResponse(new TagRessource($tag), 'Tag retrieved successfully.');
         } catch (ModelNotFoundException $e) {
-            return response()->json(['message' => 'Tag not found!'], 404);
+            return $this->sendError('Tag not found.',[$e->getMessage()], 404);
         }
     }
 
@@ -112,30 +131,53 @@ class TagController extends BaseController
      *     description="Permet de mettre à jour un tag",
      *     operationId="updateTag",
      *     tags={"Tag"},
-     *     security={
-     *          {"sanctum": {}},
-     *      },
+     *     security={{ "sanctum": {} }},
      *     @OA\RequestBody(
      *           @OA\JsonContent(
      *              @OA\Property(property="name", type="string",description="",example="Dossier1"),
-     * *            @OA\Property(property="type", type="string",description="",example="Type de tag"),
+     *              @OA\Property(property="type", type="string",description="",example="Type de tag"),
      *           ),
      *      ),
      *      @OA\Parameter(
-     *            description="id du tag",
-     *            in="path",
-     *            name="id",
-     *            required=true,
-     *            example="1",
-     *            @OA\Schema(
-     *                type="integer"
-     *            )
+     *           description="id du tag",
+     *           in="path",
+     *           name="id",
+     *           required=true,
+     *           example="1",
+     *           @OA\Schema(
+     *               type="integer"
+     *           )
      *      ),
-     *     @OA\Response(
+     *      @OA\Response(
      *           response=200,
-     *           description="Le tag est retourné en cas de succès de la connexion",
+     *           description="Successful operation",
      *           @OA\MediaType( mediaType="application/json" )
-     *        ),
+     *      ),
+     *      @OA\Response(
+     *           response=400,
+     *           description="Validation Error",
+     *           @OA\MediaType( mediaType="application/json" )
+     *      ),
+     *      @OA\Response(
+     *           response=401,
+     *           description="Unauthorized",
+     *           @OA\MediaType(mediaType="application/json")
+     *       ),
+     *      @OA\Response(
+     *           response=404,
+     *           description="Not Found",
+     *           @OA\MediaType(mediaType="application/json")
+     *       ),
+     *      @OA\Response(
+     *           response=422,
+     *           description="Unprocessable Entity",
+     *           @OA\MediaType(mediaType="application/json")
+     *      ),
+     *      @OA\Response(
+     *           response=500,
+     *           description="Internal Server Error",
+     *           @OA\MediaType(mediaType="application/json")
+     *      ),
      * )
      */
     public function update(TagUpdateRequest $request, string $id)
@@ -149,21 +191,21 @@ class TagController extends BaseController
             $tag->fill($validatedData);
             $tag->save();
             return $this->sendResponse(new TagRessource($tag), 'Tag updated successfully.');
+        } catch (ModelNotFoundException $e) {
+            return $this->sendError('Tag not found.', [$e->getMessage()], 404);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Tag update failed!', 'error' => $e->getMessage()], 409);
+            return $this->sendError('Tag update failed!', [$e->getMessage()], 500);
         }
     }
 
     /**
      * @OA\Delete(
      *      path="/tags/{id}",
-     *      operationId="deleteTag",
-     *      tags={"Tag"},
      *      summary="Permet de supprimer un tag",
      *      description="Permet de supprimer un tag",
-     *      security={
-     *            {"sanctum": {}},
-     *        },
+     *      operationId="deleteTag",
+     *      tags={"Tag"},
+     *      security={{ "sanctum": {} }},
      *      @OA\Parameter(
      *             description="id du tag",
      *             in="path",
@@ -174,12 +216,26 @@ class TagController extends BaseController
      *                 type="integer"
      *             )
      *       ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="successful",
-     *          @OA\MediaType(
-     *           mediaType="application/json",
-     *      )
+     *     @OA\Response(
+     *           response=200,
+     *           description="Successful operation",
+     *           @OA\MediaType(mediaType="application/json")
+     *       ),
+     *       @OA\Response(
+     *           response=401,
+     *           description="Unauthorized",
+     *           @OA\MediaType(mediaType="application/json")
+     *       ),
+     *       @OA\Response(
+     *           response=404,
+     *           description="Not Found",
+     *           @OA\MediaType(mediaType="application/json")
+     *       ),
+     *       @OA\Response(
+     *            response=500,
+     *            description="Internal Server Error",
+     *            @OA\MediaType(mediaType="application/json")
+     *       ),
      *      ),
      *  )
      */
@@ -190,7 +246,7 @@ class TagController extends BaseController
             $tag->delete();
             return $this->sendResponse(new TagRessource($tag), 'Tag deleted successfully.');
         } catch (ModelNotFoundException $e) {
-            return $this->sendError('Tag not found', (array)$e->getMessage(), 404);
+            return $this->sendError('Tag not found',[ $e->getMessage()], 404);
         }
     }
 }

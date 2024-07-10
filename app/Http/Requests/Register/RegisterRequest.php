@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Card;
+namespace App\Http\Requests\Register;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CardUpdateRequest extends FormRequest
+class RegisterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,10 +22,11 @@ class CardUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'min:3|max:255|string',
-            'content' => 'string',
-            'image_path' => 'string',
-            'folder_id' => 'numeric|exists:folders,id',
+            'email' => 'required|email|unique:users,email',
+            'username' => 'required|unique:users,username',
+            'first_name' => 'required',
+            'last_name' => "required",
+            'password' => 'required',
         ];
     }
 }

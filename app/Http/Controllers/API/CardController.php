@@ -2,27 +2,30 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
+use App\Http\Requests\Card\CardStoreRequest;
+use App\Http\Requests\Card\CardUpdateRequest;
 use App\Http\Resources\CardRessource;
 use App\Models\Card;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
 
 class CardController extends BaseController
 {
     /** @OA\Get(
      *      path="/cards",
-     *       summary="Permet de récupérer l'ensemble des cartes",
-     *       description="Permet de récupérer l'ensemble des cartes",
+     *      summary="Permet de récupérer l'ensemble des cartes.",
+     *      description="Permet de récupérer l'ensemble des cartes.",
      *      operationId="cards",
      *      tags={"Carte"},
-     *      security={
-     *          {"sanctum": {}},
-     *      },
+     *      security={{ "sanctum": {} }},
      *      @OA\Response(
      *           response=200,
-     *           description="La carte est retourné en cas de succès de la connexion",
-     *           @OA\MediaType( mediaType="application/json" )
+     *           description="Successful operation",
+     *           @OA\MediaType(mediaType="application/json")
+     *      ),
+     *      @OA\Response(
+     *           response=401,
+     *           description="Unauthorized",
+     *           @OA\MediaType(mediaType="application/json")
      *      ),
      * )
      */
@@ -38,92 +41,58 @@ class CardController extends BaseController
      *      description="Création d'une carte",
      *      operationId="initCard",
      *      tags={"Carte"},
-     *      security={
-     *           {"sanctum": {}},
-     *       },
+     *      security={{"sanctum": {}}},
      *      @OA\RequestBody(
-     *          @OA\JsonContent(
-     *              @OA\Property(property="title", type="string",description="",example="Carte1"),
-     *              @OA\Property(property="content", type="string",description="",example="Contenu de la carte"),
-     *              @OA\Property(property="image_path", type="boolean",description="",example="/tmp/fakerFerad.jpg"),
-     *              @OA\Property(property="folder_id", type="integer",description="",example=1),
-     *          ),
+     *           @OA\JsonContent(
+     *                @OA\Property(property="title", type="string",description="",example="Carte1"),
+     *                @OA\Property(property="content", type="string",description="",example="Contenu de la carte"),
+     *                @OA\Property(property="image_path", type="boolean",description="",example="/tmp/fakerFerad.jpg"),
+     *                @OA\Property(property="folder_id", type="integer",description="",example=1),
+     *           ),
      *      ),
-     *     @OA\Response(
+     *      @OA\Response(
      *           response=201,
-     *           description="La carte est retournée en cas de succès de la connexion",
+     *           description="Created success",
      *           @OA\MediaType( mediaType="application/json" )
-     *     ),
-     *     @OA\Response(
-     *             response=409,
-     *             description="Card creation failed!",
-     *     ),
+     *      ),
+     *      @OA\Response(
+     *            response=401,
+     *            description="Unauthorized",
+     *            @OA\MediaType(mediaType="application/json")
+     *       ),
+     *      @OA\Response(
+     *           response=422,
+     *           description="Unprocessable Entity",
+     *           @OA\MediaType(mediaType="application/json")
+     *      ),
+
+     *      @OA\Response(
+     *           response=500,
+     *           description="Internal Server Error",
+     *           @OA\MediaType(mediaType="application/json")
+     *      ),
      *  )
      */
-    public function store(Request $request)
+    public function store(CardStoreRequest $request)
     {
         try {
             $validatedData = $request->validated();
             $card = Card::create($validatedData);
             return $this->sendResponse(new CardRessource($card), 'Card created successfully.', 201);
-        } catch (ModelNotFoundException $e) {
-            return $this->sendError('Card creation failed!', (array)$e->getMessage(), 409);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return $this->sendError('Validation Error', $e->errors(), 422);
+        } catch (\Exception $e) {
+            return $this->sendError('Card creation failed!', [$e->getMessage()], 500);
         }
     }
 
     /** @OA\Get(
      *     path="/cards/{id}",
-     *     summary="Permet de récupérer une carte",
-     *     description="Permet de récupérer une carte",
+     *     summary="Permet de récupérer une carte.",
+     *     description="Permet de récupérer une carte.",
      *     operationId="card",
      *     tags={"Carte"},
-     *     security={
-     *          {"sanctum": {}},
-     *      },
-     *      @OA\Parameter(
-     *            description="id de la carte",
-     *            in="path",
-     *            name="id",
-     *            required=true,
-     *            example="1",
-     *            @OA\Schema(
-     *                type="integer"
-     *            )
-     *      ),
-     *     @OA\Response(
-     *           response=200,
-     *           description="Le dossier est retourné en cas de succès de la connexion",
-     *           @OA\MediaType( mediaType="application/json" )
-     *        ),
-     * )
-     */
-    public function show(string $id)
-    {
-        try {
-            $card = Card::findOrFail($id);
-            return $this->sendResponse(new CardRessource($card), 'Card retrieved successfully.');
-        } catch (ModelNotFoundException $e) {
-            return $this->sendError('Card not found', (array)$e->getMessage(), 404);
-        }
-    }
-
-    /** @OA\Patch(
-     *     path="/cards/{id}",
-     *     summary="Permet de mettre à jour une carte",
-     *     description="Permet de mettre à jour une carte",
-     *     operationId="updateCard",
-     *     tags={"Carte"},
-     *     security={
-     *          {"sanctum": {}},
-     *      },
-     *     @OA\RequestBody(
-     *           @OA\JsonContent(
-     *               @OA\Property(property="title", type="string",description="",example="Nouveau Titre"),
-     *               @OA\Property(property="content", type="string",description="",example="Contenu de la carte"),
-     *               @OA\Property(property="image_path", type="boolean",description="",example="/tmp/fakerFB2HTD"),
-     *               @OA\Property(property="folder_id", type="integer",description="",example=1),
-     *           ),
-     *     ),
+     *     security={{ "sanctum": {} }},
      *     @OA\Parameter(
      *            description="id de la carte",
      *            in="path",
@@ -136,12 +105,87 @@ class CardController extends BaseController
      *     ),
      *     @OA\Response(
      *           response=200,
-     *           description="La carte est retournée en cas de succès de la connexion",
-     *           @OA\MediaType( mediaType="application/json" )
+     *           description="Successful operation",
+     *           @OA\MediaType(mediaType="application/json")
+     *     ),
+     *     @OA\Response(
+     *            response=401,
+     *            description="Unauthorized",
+     *            @OA\MediaType(mediaType="application/json")
+     *     ),
+     *     @OA\Response(
+     *            response=404,
+     *            description="Not Found",
+     *            @OA\MediaType(mediaType="application/json")
      *     ),
      * )
      */
-    public function update(Request $request, string $id)
+    public function show(int $id)
+    {
+        try {
+            $card = Card::findOrFail($id);
+            return $this->sendResponse(new CardRessource($card), 'Card retrieved successfully.');
+        } catch (ModelNotFoundException $e) {
+            return $this->sendError('Card not found', (array)$e->getMessage(), 404);
+        }
+    }
+
+    /** @OA\Patch(
+     *     path="/cards/{id}",
+     *     summary="Permet de mettre à jour une carte.",
+     *     description="Permet de mettre à jour une carte.",
+     *     operationId="updateCard",
+     *     tags={"Carte"},
+     *     security={{ "sanctum": {} }},
+     *     @OA\RequestBody(
+     *           @OA\JsonContent(
+     *               @OA\Property(property="title", type="string",description="",example="Nouveau Titre"),
+     *               @OA\Property(property="content", type="string",description="",example="Contenu de la carte"),
+     *               @OA\Property(property="image_path", type="boolean",description="",example="/tmp/fakerFB2HTD"),
+     *               @OA\Property(property="folder_id", type="integer",description="",example=1),
+     *           ),
+     *     ),
+     *     @OA\Parameter(
+     *           description="id de la carte",
+     *           in="path",
+     *           name="id",
+     *           required=true,
+     *           example="1",
+     *           @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *           response=200,
+     *           description="Successful operation",
+     *           @OA\MediaType(mediaType="application/json")
+     *     ),
+     *     @OA\Response(
+     *           response=400,
+     *           description="Validation Error",
+     *           @OA\MediaType(mediaType="application/json")
+     *     ),
+     *     @OA\Response(
+     *           response=401,
+     *           description="Unauthorized",
+     *           @OA\MediaType(mediaType="application/json")
+     *      ),
+     *     @OA\Response(
+     *           response=404,
+     *           description="Not Found",
+     *           @OA\MediaType(mediaType="application/json")
+     *      ),
+     *     @OA\Response(
+     *           response=422,
+     *           description="Unprocessable Entity",
+     *           @OA\MediaType(mediaType="application/json")
+     *     ),
+     *     @OA\Response(
+     *           response=500,
+     *           description="Internal Server Error",
+     *           @OA\MediaType(mediaType="application/json")
+     *     ),
+     * )
+     */
+    public function update(CardUpdateRequest $request, int $id)
     {
         try {
             $validatedData = $request->validated();
@@ -153,42 +197,51 @@ class CardController extends BaseController
             $card->save();
             return $this->sendResponse(new CardRessource($card), 'Card updated successfully.');
         } catch (ModelNotFoundException $e) {
-            return $this->sendError('Card not found', (array)$e->getMessage(), 404);
+            return $this->sendError('Card not found', [$e->getMessage()], 404);
         } catch (\Exception $e) {
-            return $this->sendError('Card update failed!', (array)$e->getMessage(), 404);
+            return $this->sendError('Card update failed!', [$e->getMessage()], 500);
         }
     }
 
     /**
      * @OA\Delete(
      *      path="/cards/{id}",
+     *      summary="Permet de supprimer une carte",
+     *      description="Permet de supprimer un carte",
      *      operationId="deleteCard",
      *      tags={"Carte"},
-     *      summary="Permet de supprimer une carte",
-     *      description="Permet de supprimer un dossier",
-     *      security={
-     *            {"sanctum": {}},
-     *      },
+     *      security={{ "sanctum": {} }},
      *      @OA\Parameter(
      *             description="id du dossier",
      *             in="path",
      *             name="id",
      *             required=true,
      *             example="1",
-     *             @OA\Schema(
-     *                 type="integer"
-     *             )
+     *             @OA\Schema(type="integer")
      *       ),
      *      @OA\Response(
      *          response=200,
-     *          description="successful",
-     *          @OA\MediaType(
-     *              mediaType="application/json",
-     *          )
+     *          description="Successful operation",
+     *          @OA\MediaType(mediaType="application/json")
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthorized",
+     *          @OA\MediaType(mediaType="application/json")
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Not Found",
+     *          @OA\MediaType(mediaType="application/json")
+     *      ),
+     *      @OA\Response(
+     *           response=500,
+     *           description="Internal Server Error",
+     *           @OA\MediaType(mediaType="application/json")
      *      ),
      *  )
      */
-    public function destroy(string $id)
+    public function destroy(int $id)
     {
         try {
             $card = Card::findOrFail($id);
@@ -196,6 +249,8 @@ class CardController extends BaseController
             return $this->sendResponse(new CardRessource($card), 'Card deleted successfully.');
         } catch (ModelNotFoundException $e) {
             return $this->sendError('Card not found', (array)$e->getMessage(), 404);
+        } catch (\Exception $e) {
+            return $this->sendError('Card deletion failed!', [$e->getMessage()], 500);
         }
     }
 }
