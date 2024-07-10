@@ -14,15 +14,24 @@ class CardRessource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
+        $data = [
             'id' => $this->id,
             'title' => $this->title,
             'content' => $this->content,
             'image_path' => $this->image_path,
             'folder_id' => $this->folder_id,
-            'folder_tree_folders_id' => $this->folder_tree_folders_id,
             'created_at' => $this->created_at->format('d/m/Y'),
             'updated_at' => $this->updated_at->format('d/m/Y'),
         ];
+
+        if ($request->has('tags')) {
+            $data['tags'] = $this->tags;
+        }
+
+        if ($request->has('reviews')) {
+            $data['reviews'] = $this->reviews;
+        }
+
+        return $data;
     }
 }

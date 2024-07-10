@@ -10,11 +10,21 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:sanctum')->group(function () {
+    //USERS
     Route::resource('users', \App\Http\Controllers\API\UserController::class);
+
+    //FOLDERS
     Route::resource('folders', \App\Http\Controllers\API\FolderController::class);
+
+    //CARDS
     Route::resource('cards', \App\Http\Controllers\API\CardController::class);
+    Route::get('users/{id}/cards', [\App\Http\Controllers\API\CardController::class, 'indexByUser']);
+    Route::get('users/{id}/cards-to-review', [\App\Http\Controllers\API\CardController::class, 'indexByUserAndReviews']);
+
     Route::resource('tags', \App\Http\Controllers\API\TagController::class);
+
     Route::resource('reviews', \App\Http\Controllers\API\ReviewController::class);
+
 });
 
 Route::post('register', [RegisterController::class, 'register']);

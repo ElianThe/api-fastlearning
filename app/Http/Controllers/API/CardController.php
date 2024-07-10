@@ -6,7 +6,10 @@ use App\Http\Requests\Card\CardStoreRequest;
 use App\Http\Requests\Card\CardUpdateRequest;
 use App\Http\Resources\CardRessource;
 use App\Models\Card;
+use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class CardController extends BaseController
 {
@@ -29,7 +32,7 @@ class CardController extends BaseController
      *      ),
      * )
      */
-    public function index()
+    public function index(Request $request) : JsonResponse
     {
         $cards = Card::all();
         return $this->sendResponse(CardRessource::collection($cards), 'cards retrieved successfully.');
@@ -73,7 +76,7 @@ class CardController extends BaseController
      *      ),
      *  )
      */
-    public function store(CardStoreRequest $request)
+    public function store(CardStoreRequest $request) : JsonResponse
     {
         try {
             $validatedData = $request->validated();
@@ -120,7 +123,7 @@ class CardController extends BaseController
      *     ),
      * )
      */
-    public function show(int $id)
+    public function show(int $id) : JsonResponse
     {
         try {
             $card = Card::findOrFail($id);
@@ -185,7 +188,7 @@ class CardController extends BaseController
      *     ),
      * )
      */
-    public function update(CardUpdateRequest $request, int $id)
+    public function update(CardUpdateRequest $request, int $id) : JsonResponse
     {
         try {
             $validatedData = $request->validated();
@@ -241,7 +244,7 @@ class CardController extends BaseController
      *      ),
      *  )
      */
-    public function destroy(int $id)
+    public function destroy(int $id) : JsonResponse
     {
         try {
             $card = Card::findOrFail($id);
@@ -251,6 +254,39 @@ class CardController extends BaseController
             return $this->sendError('Card not found', (array)$e->getMessage(), 404);
         } catch (\Exception $e) {
             return $this->sendError('Card deletion failed!', [$e->getMessage()], 500);
+        }
+    }
+
+    /* récupère toutes les cartes d'un user */
+    public function indexByUser(int $id) : JsonResponse
+    {
+        try {
+            $user_with_cards = User::where('id', $id)
+                ->with('cards')
+                ->firstOrFail();
+
+            // je récupère les cartes d'un user
+            $cards = $user_with_cards->cards;
+            return $this->sendResponse(CardRessource::collection($cards), 'Cards retrieved successfully.');
+        } catch (ModelNotFoundException $exception) {
+            return $this->sendError('User not found', (array)$exception->getMessage(), 404);
+        }
+    }
+
+    /* récupère toutes les cartes qui sont à réviser */
+    public function indexByUserAndReviews(int $id) : JsonResponse
+    {
+        try {
+            $user_with_cards = User::where('id', $id)
+                ->withWhereHas('cards', function ($query) {
+                    $query->with('reviews')->where('review_date', '>', now());
+                })
+                ->firstOrFail();
+            // je récupère les cartes d'un user qu'il doit réviser
+            $cards = $user_with_cards->cards;
+            return $this->sendResponse(CardRessource::collection($cards), 'Cards retrieved successfully.');
+        } catch (ModelNotFoundException $exception) {
+            return $this->sendError('User not found', (array)$exception->getMessage(), 404);
         }
     }
 }

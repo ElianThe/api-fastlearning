@@ -2,7 +2,7 @@
     "openapi": "3.0.0",
     "info": {
         "title": "API fast-learning",
-        "description": "Bienvenue sur la version 1 de la documentation API de fast-learning.<br><br><u>Condition préalable :</u><br><li>Avoir un compte utilisateur</li><br><li>Une clé d'application <b>apiKey</b> vous sera donné lorsque que vous vous connectez. Utilisé là pour faire des requêtes</li><br>",
+        "description": "Bienvenue sur la version 1 de la documentation API de fast-learning.<br><br><u>Condition préalable :</u><br><li>Avoir un compte utilisateur</li><br><li>Une clé d'application <b>apiKey</b> vous sera donné lorsque que vous vous connectez/inscrivez. Utilisé là pour faire des requêtes</li><br>",
         "contact": {
             "name": ": TODO AFTER THE SERVER IS ONLINE",
             "email": "elian.yutz@hotmail.fr"
@@ -170,7 +170,7 @@
                     "Carte"
                 ],
                 "summary": "Permet de supprimer une carte",
-                "description": "Permet de supprimer un dossier",
+                "description": "Permet de supprimer un carte",
                 "operationId": "deleteCard",
                 "parameters": [
                     {
@@ -343,8 +343,8 @@
                 "tags": [
                     "Dossier"
                 ],
-                "summary": "création d'un dossier",
-                "description": "Store a newly created folder in storage.",
+                "summary": "Création d'un dossier",
+                "description": "Création d'un dossier.",
                 "operationId": "initFolder",
                 "requestBody": {
                     "content": {
