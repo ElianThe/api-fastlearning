@@ -28,6 +28,38 @@
                 "summary": "Permet de récupérer l'ensemble des cartes.",
                 "description": "Permet de récupérer l'ensemble des cartes.",
                 "operationId": "cards",
+                "parameters": [
+                    {
+                        "name": "folder",
+                        "in": "query",
+                        "description": "ajout des dossier avec les cartes",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "false"
+                    },
+                    {
+                        "name": "tags",
+                        "in": "query",
+                        "description": "ajout des tags avec les cartes",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "false"
+                    },
+                    {
+                        "name": "review",
+                        "in": "query",
+                        "description": "ajout des reviews avec les cartes",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "false"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -137,6 +169,36 @@
                             "type": "integer"
                         },
                         "example": "1"
+                    },
+                    {
+                        "name": "folder",
+                        "in": "query",
+                        "description": "ajout des dossier avec les cartes",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "false"
+                    },
+                    {
+                        "name": "tags",
+                        "in": "query",
+                        "description": "ajout des tags avec les cartes",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "false"
+                    },
+                    {
+                        "name": "review",
+                        "in": "query",
+                        "description": "ajout des reviews avec les cartes",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "false"
                     }
                 ],
                 "responses": {
@@ -328,7 +390,37 @@
                         "schema": {
                             "type": "integer"
                         },
-                        "example": "1"
+                        "example": "11"
+                    },
+                    {
+                        "name": "folder",
+                        "in": "query",
+                        "description": "ajout des dossier avec les cartes",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "false"
+                    },
+                    {
+                        "name": "tags",
+                        "in": "query",
+                        "description": "ajout des tags avec les cartes",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "false"
+                    },
+                    {
+                        "name": "reviews",
+                        "in": "query",
+                        "description": "ajout des reviews avec les cartes",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "false"
                     }
                 ],
                 "responses": {
@@ -358,7 +450,7 @@
                     "Carte"
                 ],
                 "summary": "Permet de récupérer l'ensemble des cartes à réviser en fonction d'un utilisateur.",
-                "description": "Permet de récupérer l'ensemble des cartes à réviser en fonction d'un utilisateur.",
+                "description": "Permet de récupérer l'ensemble des cartes à réviser en fonction d'un utilisateur. Les cartes sont affichés par ordre croissant de date de révision. ça veut dire que la première carte affiché à apprendre est celle qui date la plus.",
                 "operationId": "cardsReviewsByUser",
                 "parameters": [
                     {
@@ -370,6 +462,36 @@
                             "type": "integer"
                         },
                         "example": "1"
+                    },
+                    {
+                        "name": "folder",
+                        "in": "query",
+                        "description": "ajout des dossier avec les cartes",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "false"
+                    },
+                    {
+                        "name": "tags",
+                        "in": "query",
+                        "description": "ajout des tags avec les cartes",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "false"
+                    },
+                    {
+                        "name": "reviews",
+                        "in": "query",
+                        "description": "ajout des reviews avec les cartes",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "false"
                     }
                 ],
                 "responses": {

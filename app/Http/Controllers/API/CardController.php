@@ -23,6 +23,36 @@ class CardController extends BaseController
      *      operationId="cards",
      *      tags={"Carte"},
      *      security={{ "sanctum": {} }},
+     *      @OA\Parameter(
+     *           description="ajout des dossier avec les cartes",
+     *           in="query",
+     *           name="folder",
+     *           required=false,
+     *           example="false",
+     *           @OA\Schema(
+     *               type="boolean"
+     *           )
+     *      ),
+     *      @OA\Parameter(
+     *           description="ajout des tags avec les cartes",
+     *           in="query",
+     *           name="tags",
+     *           required=false,
+     *           example="false",
+     *           @OA\Schema(
+     *               type="boolean"
+     *           )
+     *      ),
+     *      @OA\Parameter(
+     *           description="ajout des reviews avec les cartes",
+     *           in="query",
+     *           name="review",
+     *           required=false,
+     *           example="false",
+     *           @OA\Schema(
+     *               type="boolean"
+     *           )
+     *      ),
      *      @OA\Response(
      *           response=200,
      *           description="Successful operation",
@@ -125,6 +155,36 @@ class CardController extends BaseController
      *                type="integer"
      *            )
      *     ),
+     *     @OA\Parameter(
+     *            description="ajout des dossier avec les cartes",
+     *            in="query",
+     *            name="folder",
+     *            required=false,
+     *            example="false",
+     *            @OA\Schema(
+     *                type="boolean"
+     *            )
+     *       ),
+     *       @OA\Parameter(
+     *            description="ajout des tags avec les cartes",
+     *            in="query",
+     *            name="tags",
+     *            required=false,
+     *            example="false",
+     *            @OA\Schema(
+     *                type="boolean"
+     *            )
+     *       ),
+     *       @OA\Parameter(
+     *            description="ajout des reviews avec les cartes",
+     *            in="query",
+     *            name="review",
+     *            required=false,
+     *            example="false",
+     *            @OA\Schema(
+     *                type="boolean"
+     *            )
+     *       ),
      *     @OA\Response(
      *           response=200,
      *           description="Successful operation",
@@ -245,27 +305,27 @@ class CardController extends BaseController
      *      tags={"Carte"},
      *      security={{ "sanctum": {} }},
      *      @OA\Parameter(
-     *             description="id de la carte",
-     *             in="path",
-     *             name="id",
-     *             required=true,
-     *             example="1",
-     *             @OA\Schema(type="integer")
+     *           description="id de la carte",
+     *           in="path",
+     *           name="id",
+     *           required=true,
+     *           example="1",
+     *           @OA\Schema(type="integer")
      *       ),
      *      @OA\Response(
-     *          response=200,
-     *          description="Successful operation",
-     *          @OA\MediaType(mediaType="application/json")
+     *           response=200,
+     *           description="Successful operation",
+     *           @OA\MediaType(mediaType="application/json")
      *      ),
      *      @OA\Response(
-     *          response=401,
-     *          description="Unauthorized",
-     *          @OA\MediaType(mediaType="application/json")
+     *           response=401,
+     *           description="Unauthorized",
+     *           @OA\MediaType(mediaType="application/json")
      *      ),
      *      @OA\Response(
-     *          response=404,
-     *          description="Not Found",
-     *          @OA\MediaType(mediaType="application/json")
+     *           response=404,
+     *           description="Not Found",
+     *           @OA\MediaType(mediaType="application/json")
      *      ),
      *      @OA\Response(
      *           response=500,
@@ -300,8 +360,38 @@ class CardController extends BaseController
      *           in="path",
      *           name="id",
      *           required=true,
-     *           example="1",
+     *           example="11",
      *           @OA\Schema(type="integer")
+     *      ),
+     *      @OA\Parameter(
+     *           description="ajout des dossier avec les cartes",
+     *           in="query",
+     *           name="folder",
+     *           required=false,
+     *           example="false",
+     *           @OA\Schema(
+     *               type="boolean"
+     *           )
+     *      ),
+     *      @OA\Parameter(
+     *           description="ajout des tags avec les cartes",
+     *           in="query",
+     *           name="tags",
+     *           required=false,
+     *           example="false",
+     *           @OA\Schema(
+     *               type="boolean"
+     *           )
+     *      ),
+     *      @OA\Parameter(
+     *           description="ajout des reviews avec les cartes",
+     *           in="query",
+     *           name="reviews",
+     *           required=false,
+     *           example="false",
+     *           @OA\Schema(
+     *               type="boolean"
+     *           )
      *      ),
      *      @OA\Response(
      *           response=200,
@@ -346,6 +436,36 @@ class CardController extends BaseController
      *           example="1",
      *           @OA\Schema(type="integer")
      *      ),
+     *     @OA\Parameter(
+     *           description="ajout des dossier avec les cartes",
+     *           in="query",
+     *           name="folder",
+     *           required=false,
+     *           example="false",
+     *           @OA\Schema(
+     *               type="boolean"
+     *           )
+     *       ),
+     *       @OA\Parameter(
+     *           description="ajout des tags avec les cartes",
+     *           in="query",
+     *           name="tags",
+     *           required=false,
+     *           example="false",
+     *           @OA\Schema(
+     *               type="boolean"
+     *           )
+     *       ),
+     *       @OA\Parameter(
+     *           description="ajout des reviews avec les cartes",
+     *           in="query",
+     *           name="reviews",
+     *           required=false,
+     *           example="false",
+     *           @OA\Schema(
+     *               type="boolean"
+     *           )
+     *       ),
      *      @OA\Response(
      *           response=200,
      *           description="Successful operation",
