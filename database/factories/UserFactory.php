@@ -29,7 +29,7 @@ class UserFactory extends Factory
             'password' => static::$password ??= Hash::make('password'),
             'first_name' => fake()->firstName,
             'last_name' => fake()->lastName,
-            'role' => fake()->boolean(),
+            'role' => 'user',
             'status' => fake()->word,
             'settings' => null,
         ];

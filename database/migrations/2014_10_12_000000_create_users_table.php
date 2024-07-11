@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->string('password');
             $table->string('first_name');
             $table->string('last_name');
-            $table->boolean('role');
+            $table->string('role');
             $table->string('status');
             $table->json('settings')->nullable();
             $table->timestamps();
