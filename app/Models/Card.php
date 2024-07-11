@@ -20,7 +20,7 @@ class Card extends Model
 
     public function folder()
     {
-        $this->belongsTo(Folder::class, 'folder_id', 'id');
+        return $this->belongsTo(Folder::class, 'folder_id', 'id');
     }
     public function tags()
     {

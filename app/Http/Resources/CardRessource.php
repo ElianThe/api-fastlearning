@@ -23,14 +23,21 @@ class CardRessource extends JsonResource
             'created_at' => $this->created_at->format('d/m/Y'),
             'updated_at' => $this->updated_at->format('d/m/Y'),
         ];
+        if ($request->has('folder')) {
+            $data['folder'] = $this->folder;
+        }
 
+        /* si on veut afficher les tags avec la carte */
         if ($request->has('tags')) {
             $data['tags'] = $this->tags;
         }
 
+        /* Si on veut afficher les reviews avec la carte */
         if ($request->has('reviews')) {
             $data['reviews'] = $this->reviews;
         }
+
+
 
         return $data;
     }

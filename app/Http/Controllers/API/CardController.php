@@ -6,13 +6,16 @@ use App\Http\Requests\Card\CardStoreRequest;
 use App\Http\Requests\Card\CardUpdateRequest;
 use App\Http\Resources\CardRessource;
 use App\Models\Card;
+use App\Models\Review;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class CardController extends BaseController
 {
+
     /** @OA\Get(
      *      path="/cards",
      *      summary="Permet de récupérer l'ensemble des cartes.",
@@ -34,6 +37,7 @@ class CardController extends BaseController
      */
     public function index(Request $request) : JsonResponse
     {
+        Gate::authorize('viewAny', Card::class);
         $cards = Card::all();
         return $this->sendResponse(CardRessource::collection($cards), 'cards retrieved successfully.');
     }
@@ -79,8 +83,23 @@ class CardController extends BaseController
     public function store(CardStoreRequest $request) : JsonResponse
     {
         try {
+            //valide les données de la requete
             $validatedData = $request->validated();
+
+            // authorise ou non la création de cette carte
+            Gate::authorize('create', [Card::class, $validatedData['folder_id']]);
+
+            // création de la carte
             $card = Card::create($validatedData);
+
+            //création d'une review pour la carte
+            Review::create([
+                'user_id' => auth()->user()->id,
+                'card_id' => $card->id,
+                'is_active' => true,
+                'review_date' => now(),
+                'review_score' => 0
+            ]);
             return $this->sendResponse(new CardRessource($card), 'Card created successfully.', 201);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return $this->sendError('Validation Error', $e->errors(), 422);
@@ -127,6 +146,7 @@ class CardController extends BaseController
     {
         try {
             $card = Card::findOrFail($id);
+            Gate::authorize('view', $card);
             return $this->sendResponse(new CardRessource($card), 'Card retrieved successfully.');
         } catch (ModelNotFoundException $e) {
             return $this->sendError('Card not found', (array)$e->getMessage(), 404);
@@ -191,11 +211,21 @@ class CardController extends BaseController
     public function update(CardUpdateRequest $request, int $id) : JsonResponse
     {
         try {
+            $card = Card::findOrFail($id);
+
             $validatedData = $request->validated();
             if (empty($validatedData) || count($validatedData) === 0) {
                 return response()->json(['message' => 'No data provided or there is an error in the request'], 400);
             }
-            $card = Card::findOrFail($id);
+
+            // Si le dossier donné ne correspond pas à un dossier créé par l'utilisateur, il ne pourra pas modifier sa carte
+            $request_folder_id = null;
+            if (isset($validatedData['folder_id'])) {
+                $request_folder_id = $validatedData['folder_id'];
+            }
+
+            Gate::authorize('update', [Card::class, $card->folder->id,  $request_folder_id]);
+
             $card->fill($validatedData);
             $card->save();
             return $this->sendResponse(new CardRessource($card), 'Card updated successfully.');
@@ -215,7 +245,7 @@ class CardController extends BaseController
      *      tags={"Carte"},
      *      security={{ "sanctum": {} }},
      *      @OA\Parameter(
-     *             description="id du dossier",
+     *             description="id de la carte",
      *             in="path",
      *             name="id",
      *             required=true,
@@ -248,6 +278,7 @@ class CardController extends BaseController
     {
         try {
             $card = Card::findOrFail($id);
+            Gate::authorize('delete', [Card::class, $card->folder_id]);
             $card->delete();
             return $this->sendResponse(new CardRessource($card), 'Card deleted successfully.');
         } catch (ModelNotFoundException $e) {
@@ -257,7 +288,33 @@ class CardController extends BaseController
         }
     }
 
-    /* récupère toutes les cartes d'un user */
+    /** @OA\Get(
+     *      path="/users/{id}/cards",
+     *      summary="Permet de récupérer l'ensemble des cartes en fonction d'un utilisateur.",
+     *      description="Permet de récupérer l'ensemble des cartes en fonction d'un utilisateur.",
+     *      operationId="cardsByUser",
+     *      tags={"Carte"},
+     *      security={{ "sanctum": {} }},
+     *      @OA\Parameter(
+     *           description="id de l'utilisateur",
+     *           in="path",
+     *           name="id",
+     *           required=true,
+     *           example="1",
+     *           @OA\Schema(type="integer")
+     *      ),
+     *      @OA\Response(
+     *           response=200,
+     *           description="Successful operation",
+     *           @OA\MediaType(mediaType="application/json")
+     *      ),
+     *      @OA\Response(
+     *           response=401,
+     *           description="Unauthorized",
+     *           @OA\MediaType(mediaType="application/json")
+     *      ),
+     * )
+     */
     public function indexByUser(int $id) : JsonResponse
     {
         try {
@@ -265,6 +322,7 @@ class CardController extends BaseController
                 ->with('cards')
                 ->firstOrFail();
 
+            Gate::authorize('viewAnyByUser', [Card::class, $user_with_cards]);
             // je récupère les cartes d'un user
             $cards = $user_with_cards->cards;
             return $this->sendResponse(CardRessource::collection($cards), 'Cards retrieved successfully.');
@@ -273,20 +331,50 @@ class CardController extends BaseController
         }
     }
 
-    /* récupère toutes les cartes qui sont à réviser */
+    /** @OA\Get(
+     *      path="/users/{id}/cards-to-review",
+     *      summary="Permet de récupérer l'ensemble des cartes à réviser en fonction d'un utilisateur.",
+     *      description="Permet de récupérer l'ensemble des cartes à réviser en fonction d'un utilisateur. Les cartes sont affichés par ordre croissant de date de révision. ça veut dire que la première carte affiché à apprendre est celle qui date la plus.",
+     *      operationId="cardsReviewsByUser",
+     *      tags={"Carte"},
+     *      security={{ "sanctum": {} }},
+     *      @OA\Parameter(
+     *           description="id de l'utilisateur",
+     *           in="path",
+     *           name="id",
+     *           required=true,
+     *           example="1",
+     *           @OA\Schema(type="integer")
+     *      ),
+     *      @OA\Response(
+     *           response=200,
+     *           description="Successful operation",
+     *           @OA\MediaType(mediaType="application/json")
+     *      ),
+     *      @OA\Response(
+     *           response=401,
+     *           description="Unauthorized",
+     *           @OA\MediaType(mediaType="application/json")
+     *      ),
+     * )
+     */
     public function indexByUserAndReviews(int $id) : JsonResponse
     {
         try {
             $user_with_cards = User::where('id', $id)
                 ->withWhereHas('cards', function ($query) {
-                    $query->with('reviews')->where('review_date', '>', now());
+                    $query->with('reviews')
+                        ->where('review_date', '<', now())
+                        ->where('is_active', true)
+                        ->orderBy('review_date', 'asc');
                 })
                 ->firstOrFail();
-            // je récupère les cartes d'un user qu'il doit réviser
+            Gate::authorize('viewAnyByUser', [Card::class, $user_with_cards]);
+            // je récupère les cartes d'un utilisateur qu'il doit réviser
             $cards = $user_with_cards->cards;
             return $this->sendResponse(CardRessource::collection($cards), 'Cards retrieved successfully.');
         } catch (ModelNotFoundException $exception) {
-            return $this->sendError('User not found', (array)$exception->getMessage(), 404);
+            return $this->sendError('There is no review to learn or the user is not found', (array)$exception->getMessage(), 404);
         }
     }
 }

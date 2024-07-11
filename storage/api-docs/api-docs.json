@@ -176,7 +176,7 @@
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "id du dossier",
+                        "description": "id de la carte",
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -299,6 +299,88 @@
                     },
                     "500": {
                         "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/users/{id}/cards": {
+            "get": {
+                "tags": [
+                    "Carte"
+                ],
+                "summary": "Permet de récupérer l'ensemble des cartes en fonction d'un utilisateur.",
+                "description": "Permet de récupérer l'ensemble des cartes en fonction d'un utilisateur.",
+                "operationId": "cardsByUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id de l'utilisateur",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/users/{id}/cards-to-review": {
+            "get": {
+                "tags": [
+                    "Carte"
+                ],
+                "summary": "Permet de récupérer l'ensemble des cartes à réviser en fonction d'un utilisateur.",
+                "description": "Permet de récupérer l'ensemble des cartes à réviser en fonction d'un utilisateur.",
+                "operationId": "cardsReviewsByUser",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id de l'utilisateur",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
                         "content": {
                             "application/json": {}
                         }
