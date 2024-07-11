@@ -24,6 +24,26 @@ class FolderController extends BaseController
      *            description="Successful operation",
      *            @OA\MediaType(mediaType="application/json")
      *      ),
+     *      @OA\Parameter(
+     *            description="afficher les cartes du dossier",
+     *            in="query",
+     *            name="cards",
+     *            required=false,
+     *            example="false",
+     *            @OA\Schema(
+     *                type="boolean"
+     *            )
+     *      ),
+     *      @OA\Parameter(
+     *            description="afficher les users du dossier",
+     *            in="query",
+     *            name="users",
+     *            required=false,
+     *            example="false",
+     *            @OA\Schema(
+     *                type="boolean"
+     *            )
+     *      ),
      *      @OA\Response(
      *            response=401,
      *            description="Unauthorized",
@@ -103,20 +123,40 @@ class FolderController extends BaseController
      *                type="integer"
      *            )
      *     ),
-     *     @OA\Response(
-     *           response=200,
-     *           description="Successful operation",
-     *           @OA\MediaType(mediaType="application/json")
+     *     @OA\Parameter(
+     *            description="afficher les cartes du dossier",
+     *            in="query",
+     *            name="cards",
+     *            required=false,
+     *            example="false",
+     *            @OA\Schema(
+     *                type="boolean"
+     *            )
+     *     ),
+     *     @OA\Parameter(
+     *            description="afficher les users du dossier",
+     *            in="query",
+     *            name="users",
+     *            required=false,
+     *            example="false",
+     *            @OA\Schema(
+     *                type="boolean"
+     *            )
      *     ),
      *     @OA\Response(
-     *             response=401,
-     *             description="Unauthorized",
-     *             @OA\MediaType(mediaType="application/json")
+     *            response=200,
+     *            description="Successful operation",
+     *            @OA\MediaType(mediaType="application/json")
+     *     ),
+     *     @OA\Response(
+     *            response=401,
+     *            description="Unauthorized",
+     *            @OA\MediaType(mediaType="application/json")
      *      ),
      *     @OA\Response(
-     *             response=404,
-     *             description="Not Found",
-     *             @OA\MediaType(mediaType="application/json")
+     *            response=404,
+     *            description="Not Found",
+     *            @OA\MediaType(mediaType="application/json")
      *     ),
      * )
      */
@@ -225,7 +265,7 @@ class FolderController extends BaseController
      *           @OA\Schema(
      *               type="integer"
      *           )
-     *       ),
+     *      ),
      *      @OA\Response(
      *           response=200,
      *           description="Successful operation",

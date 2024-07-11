@@ -14,7 +14,7 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
+        $data = [
             'id' => $this->id,
             'email' => $this->email,
             'username' => $this->username,
@@ -26,5 +26,19 @@ class UserResource extends JsonResource
             'created_at' => $this->created_at->format('d/m/Y'),
             'updated_at' => $this->updated_at->format('d/m/Y'),
         ];
+
+        if ($request->has('folders') && $request['folders'] === 'true') {
+            $data['folders'] = $this->folders;
+        }
+
+        if ($request->has('reviews') && $request['reviews'] === 'true') {
+            $data['reviews'] = $this->reviews;
+        }
+
+        if ($request->has('cards') && $request['cards'] === 'true') {
+            $data['cards'] = $this->cards;
+        }
+
+        return $data;
     }
 }

@@ -14,12 +14,18 @@ class TagRessource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
+        $data = [
             'id' => $this->id,
             'name' => $this->name,
             'type' => $this->type,
             'created_at' => $this->created_at->format('d/m/Y'),
             'updated_at' => $this->updated_at->format('d/m/Y'),
         ];
+
+        if ($request->has('cards') && $request['cards'] === 'true') {
+            $data['cards'] = $this->cards;
+        }
+
+        return $data;
     }
 }

@@ -17,6 +17,6 @@ class Tag extends Model
     ];
 
     public function cards() {
-        return $this->belongsToMany(Tag::class, 'card_tags');
+        return $this->belongsToMany(Card::class, 'card_tags', 'tag_id', 'card_id');
     }
 }

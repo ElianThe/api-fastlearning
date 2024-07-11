@@ -14,7 +14,7 @@ class FolderResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
+        $data = [
             'id' => $this->id,
             'name' => $this->name,
             'content' => $this->content,
@@ -28,5 +28,16 @@ class FolderResource extends JsonResource
                 'self' => route('folders.show', ['folder' => $this->id]),
             ],
         ];
+
+        if ($request->has('cards') && $request['cards'] === 'true') {
+            $data['cards'] = $this->cards;
+        }
+
+        if ($request->has('users') && $request['users'] === 'true') {
+            $data['users'] = $this->users;
+        }
+
+
+        return $data;
     }
 }

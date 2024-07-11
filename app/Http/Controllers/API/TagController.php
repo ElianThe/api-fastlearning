@@ -22,6 +22,16 @@ class TagController extends BaseController
      *           description="Successful operation",
      *           @OA\MediaType(mediaType="application/json")
      *      ),
+     *      @OA\Parameter(
+     *             description="afficher les cartes d'un tag",
+     *             in="query",
+     *             name="cards",
+     *             required=false,
+     *             example="false",
+     *             @OA\Schema(
+     *                 type="boolean"
+     *             )
+     *      ),
      *      @OA\Response(
      *           response=401,
      *           description="Unauthorized",
@@ -96,6 +106,16 @@ class TagController extends BaseController
      *          example="1",
      *          @OA\Schema(
      *              type="integer"
+     *          )
+     *     ),
+     *     @OA\Parameter(
+     *          description="afficher les cartes d'un tag",
+     *          in="query",
+     *          name="cards",
+     *          required=false,
+     *          example="false",
+     *          @OA\Schema(
+     *              type="boolean"
      *          )
      *     ),
      *     @OA\Response(

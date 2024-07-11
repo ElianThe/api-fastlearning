@@ -16,6 +16,36 @@ class UserController extends BaseController
      *      operationId="users",
      *      tags={"User"},
      *      security={{ "sanctum": {} }},
+     *      @OA\Parameter(
+     *           description="afficher les dossiers d'un utilisateur",
+     *           in="query",
+     *           name="folders",
+     *           required=false,
+     *           example="false",
+     *           @OA\Schema(
+     *               type="boolean"
+     *           )
+     *      ),
+     *      @OA\Parameter(
+     *           description="afficher les reviews d'un utilisateur",
+     *           in="query",
+     *           name="reviews",
+     *           required=false,
+     *           example="false",
+     *           @OA\Schema(
+     *               type="boolean"
+     *           )
+     *      ),
+     *      @OA\Parameter(
+     *           description="afficher les cards d'un utilisateur",
+     *           in="query",
+     *           name="cards",
+     *           required=false,
+     *           example="false",
+     *           @OA\Schema(
+     *               type="boolean"
+     *           )
+     *      ),
      *      @OA\Response(
      *           response=200,
      *           description="Successful operation",
@@ -49,6 +79,36 @@ class UserController extends BaseController
      *          example="1",
      *          @OA\Schema(
      *              type="integer"
+     *          )
+     *     ),
+     *     @OA\Parameter(
+     *          description="afficher les dossiers d'un utilisateur",
+     *          in="query",
+     *          name="folders",
+     *          required=false,
+     *          example="false",
+     *          @OA\Schema(
+     *              type="boolean"
+     *          )
+     *     ),
+     *     @OA\Parameter(
+     *          description="afficher les reviews d'un utilisateur",
+     *          in="query",
+     *          name="reviews",
+     *          required=false,
+     *          example="false",
+     *          @OA\Schema(
+     *              type="boolean"
+     *          )
+     *     ),
+     *     @OA\Parameter(
+     *          description="afficher les cards d'un utilisateur",
+     *          in="query",
+     *          name="cards",
+     *          required=false,
+     *          example="false",
+     *          @OA\Schema(
+     *              type="boolean"
      *          )
      *     ),
      *     @OA\Response(

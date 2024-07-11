@@ -24,4 +24,9 @@ class Folder extends Model
     {
         return $this->belongsToMany(User::class, 'users_folders', 'folder_id', 'user_id');
     }
+
+    public function cards()
+    {
+        return $this->hasMany(Card::class, 'folder_id', 'id');
+    }
 }

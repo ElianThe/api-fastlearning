@@ -14,7 +14,7 @@ class ReviewRessource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
+        $data = [
             'id' => $this->id,
             'user_id' => $this->user_id,
             'card_id' => $this->card_id,
@@ -25,5 +25,14 @@ class ReviewRessource extends JsonResource
             'updated_at' => $this->updated_at->format('d/m/Y'),
 
         ];
+
+        if ($request->has('user') && $request['user'] === 'true') {
+            $data['user'] = $this->user;
+        }
+        if ($request->has('card') && $request['card'] === 'true') {
+            $data['card'] = $this->card;
+        }
+
+        return $data;
     }
 }

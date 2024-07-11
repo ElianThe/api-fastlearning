@@ -17,6 +17,26 @@ class ReviewController extends BaseController
      *      operationId="reviews",
      *      tags={"Review"},
      *      security={{ "sanctum": {} }},
+     *      @OA\Parameter(
+     *           description="afficher la carte d'une review",
+     *           in="query",
+     *           name="card",
+     *           required=false,
+     *           example="false",
+     *           @OA\Schema(
+     *               type="boolean"
+     *           )
+     *      ),
+     *      @OA\Parameter(
+     *           description="afficher le user d'une review",
+     *           in="query",
+     *           name="user",
+     *           required=false,
+     *           example="false",
+     *           @OA\Schema(
+     *               type="boolean"
+     *           )
+     *      ),
      *      @OA\Response(
      *           response=200,
      *           description="Successful operation",
@@ -100,6 +120,26 @@ class ReviewController extends BaseController
      *            example="1",
      *            @OA\Schema(
      *                type="integer"
+     *            )
+     *     ),
+     *     @OA\Parameter(
+     *            description="afficher la carte d'une review",
+     *            in="query",
+     *            name="card",
+     *            required=false,
+     *            example="false",
+     *            @OA\Schema(
+     *                type="boolean"
+     *            )
+     *     ),
+     *     @OA\Parameter(
+     *            description="afficher le user d'une review",
+     *            in="query",
+     *            name="user",
+     *            required=false,
+     *            example="false",
+     *            @OA\Schema(
+     *                type="boolean"
      *            )
      *     ),
      *     @OA\Response(

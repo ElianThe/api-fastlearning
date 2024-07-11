@@ -46,7 +46,7 @@ class CardController extends BaseController
      *      @OA\Parameter(
      *           description="ajout des reviews avec les cartes",
      *           in="query",
-     *           name="review",
+     *           name="reviews",
      *           required=false,
      *           example="false",
      *           @OA\Schema(
@@ -178,7 +178,7 @@ class CardController extends BaseController
      *       @OA\Parameter(
      *            description="ajout des reviews avec les cartes",
      *            in="query",
-     *            name="review",
+     *            name="reviews",
      *            required=false,
      *            example="false",
      *            @OA\Schema(

@@ -50,7 +50,7 @@
                         "example": "false"
                     },
                     {
-                        "name": "review",
+                        "name": "reviews",
                         "in": "query",
                         "description": "ajout des reviews avec les cartes",
                         "required": false,
@@ -191,7 +191,7 @@
                         "example": "false"
                     },
                     {
-                        "name": "review",
+                        "name": "reviews",
                         "in": "query",
                         "description": "ajout des reviews avec les cartes",
                         "required": false,
@@ -523,6 +523,28 @@
                 "summary": "Permet de récupérer l'ensemble des dossiers",
                 "description": "Permet de récupérer l'ensemble des dossiers",
                 "operationId": "folders",
+                "parameters": [
+                    {
+                        "name": "cards",
+                        "in": "query",
+                        "description": "afficher les cartes du dossier",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "false"
+                    },
+                    {
+                        "name": "users",
+                        "in": "query",
+                        "description": "afficher les users du dossier",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "false"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -637,6 +659,26 @@
                             "type": "integer"
                         },
                         "example": "1"
+                    },
+                    {
+                        "name": "cards",
+                        "in": "query",
+                        "description": "afficher les cartes du dossier",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "false"
+                    },
+                    {
+                        "name": "users",
+                        "in": "query",
+                        "description": "afficher les users du dossier",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "false"
                     }
                 ],
                 "responses": {
@@ -971,6 +1013,28 @@
                 "summary": "Permet de récupérer l'ensemble des reviews",
                 "description": "Permet de récupérer l'ensemble des reviews",
                 "operationId": "reviews",
+                "parameters": [
+                    {
+                        "name": "card",
+                        "in": "query",
+                        "description": "afficher la carte d'une review",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "false"
+                    },
+                    {
+                        "name": "user",
+                        "in": "query",
+                        "description": "afficher le user d'une review",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "false"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -1086,6 +1150,26 @@
                             "type": "integer"
                         },
                         "example": "1"
+                    },
+                    {
+                        "name": "card",
+                        "in": "query",
+                        "description": "afficher la carte d'une review",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "false"
+                    },
+                    {
+                        "name": "user",
+                        "in": "query",
+                        "description": "afficher le user d'une review",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "false"
                     }
                 ],
                 "responses": {
@@ -1264,6 +1348,18 @@
                 "summary": "Permet de récupérer l'ensemble des tags",
                 "description": "Permet de récupérer l'ensemble des tags",
                 "operationId": "tags",
+                "parameters": [
+                    {
+                        "name": "cards",
+                        "in": "query",
+                        "description": "afficher les cartes d'un tag",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "false"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -1363,6 +1459,16 @@
                             "type": "integer"
                         },
                         "example": "1"
+                    },
+                    {
+                        "name": "cards",
+                        "in": "query",
+                        "description": "afficher les cartes d'un tag",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "false"
                     }
                 ],
                 "responses": {
@@ -1535,6 +1641,38 @@
                 "summary": "Permet de récupérer l'ensemble des users",
                 "description": "Permet de récupérer l'ensemble des users",
                 "operationId": "users",
+                "parameters": [
+                    {
+                        "name": "folders",
+                        "in": "query",
+                        "description": "afficher les dossiers d'un utilisateur",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "false"
+                    },
+                    {
+                        "name": "reviews",
+                        "in": "query",
+                        "description": "afficher les reviews d'un utilisateur",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "false"
+                    },
+                    {
+                        "name": "cards",
+                        "in": "query",
+                        "description": "afficher les cards d'un utilisateur",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "false"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -1574,6 +1712,36 @@
                             "type": "integer"
                         },
                         "example": "1"
+                    },
+                    {
+                        "name": "folders",
+                        "in": "query",
+                        "description": "afficher les dossiers d'un utilisateur",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "false"
+                    },
+                    {
+                        "name": "reviews",
+                        "in": "query",
+                        "description": "afficher les reviews d'un utilisateur",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "false"
+                    },
+                    {
+                        "name": "cards",
+                        "in": "query",
+                        "description": "afficher les cards d'un utilisateur",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "false"
                     }
                 ],
                 "responses": {
