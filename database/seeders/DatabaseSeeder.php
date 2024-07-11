@@ -2,15 +2,11 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\Card;
 use App\Models\Folder;
-use App\Models\FolderTreeFolders;
 use App\Models\Review;
 use App\Models\Tag;
 use App\Models\User;
-use App\Models\UserFolder;
-use Database\Factories\UserFactory;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
