@@ -7,7 +7,7 @@ use App\Http\Requests\Folder\FolderUpdateRequest;
 use App\Http\Resources\FolderResource;
 use App\Models\Folder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class FolderController extends BaseController
 {
@@ -54,6 +54,7 @@ class FolderController extends BaseController
     public function index()
     {
         $folders = Folder::all();
+        Gate::authorize('viewAny', Folder::class);
         return $this->sendResponse(FolderResource::collection($folders), 'folders retrieved successfully.');
     }
 
@@ -70,7 +71,6 @@ class FolderController extends BaseController
      *                 @OA\Property(property="content", type="string",description="",example="Content of the folder"),
      *                 @OA\Property(property="is_public", type="boolean",description="",example=false),
      *                 @OA\Property(property="parent_id", type="integer",description="",example=null),
-     *                 @OA\Property(property="created_by_user", type="integer",description="",example=1)
      *            ),
      *     ),
      *     @OA\Response(
@@ -99,7 +99,10 @@ class FolderController extends BaseController
     {
         try {
             $validatedData = $request->validated();
-            $folder = Folder::create($validatedData);
+            $folder = new Folder($validatedData);
+            $folder->created_by_user = auth()->user()->id;
+            Gate::authorize('create', [Folder::class ,$folder]);
+            $folder->save();
             return $this->sendResponse(new FolderResource($folder), 'Folder created successfully.', 201);
         } catch (\Exception $e) {
             return $this->sendError('Card creation failed!', [$e->getMessage()], 500);
@@ -164,6 +167,7 @@ class FolderController extends BaseController
     {
         try {
             $folder = Folder::findOrFail($id);
+            Gate::authorize('view', $folder);
             return $this->sendResponse(new FolderResource($folder), 'Folder retrieved successfully.');
         } catch (ModelNotFoundException $e) {
             return $this->sendError('Folder not found', [$e->getMessage()], 404);
@@ -238,6 +242,7 @@ class FolderController extends BaseController
                 return response()->json(['message' => 'No data provided or there is an error in the request'], 400);
             }
             $folder = Folder::findOrFail($id);
+            Gate::authorize('update', [Folder::class, $folder, $validatedData]);
             $folder->fill($validatedData);
             $folder->save();
             return $this->sendResponse(new FolderResource($folder), 'Folder updated successfully.');
@@ -292,6 +297,7 @@ class FolderController extends BaseController
     {
         try {
             $folder = Folder::findOrFail($id);
+            Gate::authorize('delete', $folder);
             $folder->delete();
             return $this->sendResponse(new FolderResource($folder), 'Folder deleted successfully.');
         } catch (ModelNotFoundException $e) {

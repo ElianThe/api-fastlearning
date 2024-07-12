@@ -27,7 +27,7 @@ class FolderStoreRequest extends FormRequest
             'is_public' => 'boolean|required',
             'parent_id' => 'numeric|nullable|exists:folders,id',
             'type' => 'string|nullable',
-            'created_by_user' => 'required|exists:users,id',
+            'created_by_user' => 'prohibited',
         ];
     }
 

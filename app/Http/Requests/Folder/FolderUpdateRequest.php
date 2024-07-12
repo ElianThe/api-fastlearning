@@ -25,7 +25,7 @@ class FolderUpdateRequest extends FormRequest
             'name' => 'min:3|max:255|string',
             'content' => 'string',
             'is_public' => 'boolean',
-            'parent_id' => 'numeric|exists:folders,id',
+            'parent_id' => 'numeric|exists:folders,id|nullable',
             'type' => 'string',
             'created_by_user' => 'prohibited',
         ];
