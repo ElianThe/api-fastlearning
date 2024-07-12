@@ -6,6 +6,7 @@ use App\Http\Requests\User\UserUpdateRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Gate;
 
 class UserController extends BaseController
 {
@@ -61,6 +62,7 @@ class UserController extends BaseController
     public function index()
     {
         $users = User::all();
+        Gate::authorize('viewAny', User::class);
         return $this->sendResponse(UserResource::collection($users), 'users retrieved successfully.');
     }
 
@@ -132,6 +134,7 @@ class UserController extends BaseController
     {
         try {
             $user = User::findOrFail($id);
+            Gate::authorize('view', [User::class ,$user]);
             return $this->sendResponse(new UserResource($user), 'User retrieved successfully.');
         } catch (ModelNotFoundException $e) {
             return $this->sendError('User not found.');
@@ -186,11 +189,15 @@ class UserController extends BaseController
     public function update(UserUpdateRequest $request, int $id)
     {
         try {
+            $user = User::findOrFail($id);
+            // vérifie si l'utilisateur connecté a le droit de modifier l'utilisateur
+            Gate::authorize('update', [User::class ,$user]);
+
             $validatedData = $request->validated();
             if (empty($validatedData) || count($validatedData) === 0) {
                 return response()->json(['message' => 'No data provided or there is an error in the request'], 400);
             }
-            $user = User::findOrFail($id);
+
             $user->fill($validatedData);
             $user->save();
             return response()->json(['message' => 'User updated successfully'], 200);
@@ -245,6 +252,7 @@ class UserController extends BaseController
     {
         try {
             $user = User::findOrFail($id);
+            Gate::authorize('delete', [User::class ,$user]);
             $user->delete();
             return $this->sendResponse([], 'User deleted successfully.');
         } catch (ModelNotFoundException $e) {
