@@ -19,7 +19,7 @@ class ReviewRessource extends JsonResource
             'user_id' => $this->user_id,
             'card_id' => $this->card_id,
             'is_active' => $this->is_active,
-            'reviews_score' => $this->reviews_score,
+            'reviews_score' => $this->review_score,
             'review_date' => $this->review_date,
             'created_at' => $this->created_at->format('d/m/Y'),
             'updated_at' => $this->updated_at->format('d/m/Y'),

@@ -24,7 +24,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('tags', \App\Http\Controllers\API\TagController::class);
 
     Route::resource('reviews', \App\Http\Controllers\API\ReviewController::class);
-
+    Route::post('updateDateReview', [\App\Http\Controllers\API\ReviewController::class, 'updateDateReview']);
 });
 
 Route::post('register', [RegisterController::class, 'register']);

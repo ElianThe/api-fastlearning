@@ -22,8 +22,8 @@ class ReviewFactory extends Factory
             'user_id' => User::first()->id,
             'card_id' => Card::first()->id,
             'is_active' => fake()->boolean,
-            'review_score' => fake()->numberBetween(1, 100),
-            'review_date' => fake()->dateTime()
+            'review_score' => 0,
+            'review_date' => null
         ];
     }
 }

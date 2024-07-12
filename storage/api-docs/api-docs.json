@@ -596,11 +596,6 @@
                                         "description": "",
                                         "type": "integer",
                                         "example": null
-                                    },
-                                    "created_by_user": {
-                                        "description": "",
-                                        "type": "integer",
-                                        "example": 1
                                     }
                                 },
                                 "type": "object"
@@ -1067,11 +1062,6 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
-                                    "user_id": {
-                                        "description": "",
-                                        "type": "integer",
-                                        "example": 5
-                                    },
                                     "card_id": {
                                         "description": "",
                                         "type": "integer",
@@ -1316,6 +1306,68 @@
                     },
                     "404": {
                         "description": "Not Found",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/updateDateReview": {
+            "post": {
+                "tags": [
+                    "Review"
+                ],
+                "summary": "met à jour la date à laquelle l'utilisateur doit revoir la carte",
+                "description": "met à jour la date à laquelle l'utilisateur doit revoir la carte",
+                "operationId": "updateDataReview",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "id": {
+                                        "description": "",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "score": {
+                                        "description": "",
+                                        "type": "integer",
+                                        "example": 0
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created success",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
                         "content": {
                             "application/json": {}
                         }

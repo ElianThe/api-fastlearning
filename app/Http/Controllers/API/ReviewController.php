@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Requests\Review\ReviewDateRequest;
 use App\Http\Requests\Review\ReviewStoreRequest;
 use App\Http\Requests\Review\ReviewUpdateRequest;
 use App\Http\Resources\ReviewRessource;
 use App\Models\Review;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -315,5 +317,73 @@ class ReviewController extends BaseController
         } catch (\Exception $e) {
             return $this->sendError('Review deletion failed!', [$e->getMessage()], 500);
         }
+    }
+
+    /** @OA\Post (
+     *      path="/updateDateReview",
+     *      summary="met à jour la date à laquelle l'utilisateur doit revoir la carte",
+     *      description="met à jour la date à laquelle l'utilisateur doit revoir la carte",
+     *      operationId="updateDataReview",
+     *      tags={"Review"},
+     *      security={{ "sanctum": {} }},
+     *      @OA\RequestBody(
+     *           @OA\JsonContent(
+     *                @OA\Property(property="id", type="integer",description="",example=1),
+     *                @OA\Property(property="score", type="integer",description="",example=0),
+     *           ),
+     *      ),
+     *      @OA\Response(
+     *           response=201,
+     *           description="Created success",
+     *           @OA\MediaType( mediaType="application/json" )
+     *      ),
+     *      @OA\Response(
+     *           response=401,
+     *           description="Unauthorized",
+     *           @OA\MediaType(mediaType="application/json")
+     *      ),
+     *      @OA\Response(
+     *           response=422,
+     *           description="Unprocessable Entity",
+     *           @OA\MediaType(mediaType="application/json")
+     *      ),
+     *
+     *      @OA\Response(
+     *           response=500,
+     *           description="Internal Server Error",
+     *           @OA\MediaType(mediaType="application/json")
+     *      ),
+     *  )
+     */
+    public function updateDateReview(ReviewDateRequest $request) : JsonResponse
+    {
+        $validatedData = $request->validated();
+        $review_id = $validatedData['id'];
+        $score = $validatedData['score'];
+        $review = Review::where('id', $review_id)->first();
+        Gate::authorize('update', $review);
+
+        //permet d'avoir toujours un score au dessus ou égal à 0 ou quand le score= -2 (revoir)
+        if ($review->review_score === 0 && $score === -1 || $score=== -2 ) {
+            $new_score = 0;
+        } else {
+            $new_score = $review->review_score + $score;
+        }
+        $review->review_date = match ($new_score) {
+            0 => now(),
+            1 => now()->addHours(7),
+            2 => now()->addDays(1),
+            3 => now()->addDays(3),
+            4 => now()->addDays(7),
+            5 => now()->addDays(14),
+            6 => now()->addDays(30),
+            7 => now()->addDays(180),
+            8 => now()->addYears(),
+            9 => now()->addYears(5),
+            default => now()->addYears(10),
+        };
+        $review->review_score = $new_score;
+        $review->save();
+        return $this->sendResponse(new ReviewRessource($review), 'Review updated successfully.');
     }
 }
