@@ -22,7 +22,9 @@ class ReviewUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'review_score' => 'integer|between:1,10',
+            'review_date' => 'date',
+            'is_active' => 'boolean',
         ];
     }
 }

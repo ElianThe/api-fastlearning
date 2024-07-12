@@ -22,11 +22,8 @@ class ReviewStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|integer|exists:users,id',
             'card_id' => 'required|integer|exists:cards,id',
-            'is_active' => 'boolean',
-            'review_score' => 'integer',
-            'review_date' => 'string|nullable',
+            'is_active' => 'boolean'
         ];
     }
 }

@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Requests\Review\ReviewStoreRequest;
+use App\Http\Requests\Review\ReviewUpdateRequest;
 use App\Http\Resources\ReviewRessource;
 use App\Models\Review;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class ReviewController extends BaseController
 {
@@ -52,6 +54,7 @@ class ReviewController extends BaseController
     public function index()
     {
         $reviews = Review::all();
+        Gate::authorize('viewAny', $reviews->first());
         return $this->sendResponse(ReviewRessource::collection($reviews), 'reviews retrieved successfully.');
     }
 
@@ -64,7 +67,6 @@ class ReviewController extends BaseController
      *      security={{ "sanctum": {} }},
      *      @OA\RequestBody(
      *           @OA\JsonContent(
-     *                @OA\Property(property="user_id", type="integer",description="",example=5),
      *                @OA\Property(property="card_id", type="integer",description="",example=1),
      *                @OA\Property(property="is_active", type="boolean",description="",example=true),
      *                @OA\Property(property="review_score", type="integer",description="",example=0),
@@ -98,10 +100,16 @@ class ReviewController extends BaseController
     {
         try {
             $validatedData = $request->validated();
-            $folder = Review::create($validatedData);
-            return $this->sendResponse(new ReviewRessource($folder), 'Folder created successfully.', 201);
+            $review = new Review($validatedData);
+            // vérifie que l'on peut créer une review
+            Gate::authorize('create', $review);
+            $review->user_id = auth()->user()->id;
+            $review->review_score = 0;
+            $review->review_date = null;
+            $review->save();
+            return $this->sendResponse(new ReviewRessource($review), 'Review created successfully.', 201);
         } catch (\Exception $e) {
-            return $this->sendError('Folder creation failed!', [$e->getMessage()], 500);
+            return $this->sendError('Review creation failed!', [$e->getMessage()], 500);
         }
     }
 
@@ -163,6 +171,7 @@ class ReviewController extends BaseController
     {
         try {
             $review = Review::findOrFail($id);
+            Gate::authorize('view', $review);
             return $this->sendResponse(new ReviewRessource($review), 'Review retrieved successfully.');
         } catch (ModelNotFoundException $e) {
             return $this->sendError('Review not found', [$e->getMessage()], 404);
@@ -225,21 +234,32 @@ class ReviewController extends BaseController
      *     ),
      * )
      */
-    public function update(Request $request, string $id)
+    public function update(ReviewUpdateRequest $request, string $id)
     {
         try {
             $validatedData = $request->validated();
+            // vérifie que les données du body de la requete ne sont pas vides
             if (empty($validatedData) || count($validatedData) === 0) {
                 return response()->json(['message' => 'No data provided or there is an error in the request'], 400);
             }
-            $folder = Review::findOrFail($id);
-            $folder->fill($validatedData);
-            $folder->save();
-            return $this->sendResponse(new ReviewRessource($folder), 'Folder updated successfully.');
+
+            // vérifie que l'on peut mettre à jour la review
+            $review = Review::findOrFail($id);
+            Gate::authorize('update', $review);
+
+            // si l'utilisateur a choisi de ne pas activer la carte
+            if (isset($validatedData['is_active']) && (bool)$validatedData['is_active'] === false) {
+                $review->review_score = 0;
+                $review->review_date = null;
+            } else {
+                $review->fill($validatedData);
+            }
+            $review->save();
+            return $this->sendResponse(new ReviewRessource($review), 'Review updated successfully.');
         } catch (ModelNotFoundException $e) {
-            return $this->sendError('Folder not found', [$e->getMessage()], 404);
+            return $this->sendError('Review not found', [$e->getMessage()], 404);
         } catch (\Exception $e) {
-            return response()->json(['message' => 'Folder update failed!', 'error' => $e->getMessage()], 500);
+            return response()->json(['message' => 'Review update failed!', 'error' => $e->getMessage()], 500);
         }
     }
 
@@ -287,6 +307,7 @@ class ReviewController extends BaseController
     {
         try {
             $folder = Review::findOrFail($id);
+            Gate::authorize('delete', $folder);
             $folder->delete();
             return $this->sendResponse([], 'Review deleted successfully');
         } catch (ModelNotFoundException $e) {
