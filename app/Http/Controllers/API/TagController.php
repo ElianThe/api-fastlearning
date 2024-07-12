@@ -7,6 +7,7 @@ use App\Http\Requests\Tag\TagUpdateRequest;
 use App\Http\Resources\TagRessource;
 use App\Models\Tag;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Gate;
 
 class TagController extends BaseController
 {
@@ -83,6 +84,7 @@ class TagController extends BaseController
     public function store(TagStoreRequest $request)
     {
         try {
+            Gate::authorize('create', Tag::class);
             $validatedData = $request->validated();
             $tag = Tag::create($validatedData);
             return $this->sendResponse(new TagRessource($tag), 'Folder created successfully.', 201);
@@ -203,6 +205,7 @@ class TagController extends BaseController
     public function update(TagUpdateRequest $request, string $id)
     {
         try {
+            Gate::authorize('update', Tag::class);
             $validatedData = $request->validated();
             if (empty($validatedData) || count($validatedData) === 0) {
                 return response()->json(['message' => 'No data provided or there is an error in the request'], 400);
@@ -262,6 +265,7 @@ class TagController extends BaseController
     public function destroy(string $id)
     {
         try {
+            Gate::authorize('delete', Tag::class);
             $tag = Tag::findOrFail($id);
             $tag->delete();
             return $this->sendResponse(new TagRessource($tag), 'Tag deleted successfully.');
