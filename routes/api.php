@@ -20,6 +20,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('cards', \App\Http\Controllers\API\CardController::class);
     Route::get('users/{id}/cards', [\App\Http\Controllers\API\CardController::class, 'indexByUser']);
     Route::get('users/{id}/cards-to-review', [\App\Http\Controllers\API\CardController::class, 'indexByUserAndReviews']);
+    Route::get('learn-new-cards', [\App\Http\Controllers\API\CardController::class, 'learnNewCardsByUser']);
 
     Route::resource('tags', \App\Http\Controllers\API\TagController::class);
 

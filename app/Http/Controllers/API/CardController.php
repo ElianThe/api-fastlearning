@@ -497,4 +497,41 @@ class CardController extends BaseController
             return $this->sendError('There is no review to learn or the user is not found', (array)$exception->getMessage(), 404);
         }
     }
+
+    /** @OA\Get(
+     *      path="/learn-new-cards",
+     *      summary="Permet de récupérer l'ensemble des cartes à apprendre en fonction d'un utilisateur.",
+     *      description="Permet de récupérer l'ensemble des cartes à apprendre en fonction d'un utilisateur.",
+     *      operationId="cardsLearnByUser",
+     *      tags={"Carte"},
+     *      security={{ "sanctum": {} }},
+     *      @OA\Response(
+     *           response=200,
+     *           description="Successful operation",
+     *           @OA\MediaType(mediaType="application/json")
+     *      ),
+     *      @OA\Response(
+     *           response=401,
+     *           description="Unauthorized",
+     *           @OA\MediaType(mediaType="application/json")
+     *      ),
+     * )
+     */
+    public function learnNewCardsByUser()
+    {
+        try {
+            $user_with_cards = User::where('id', auth()->user()->id)
+                ->withWhereHas('cards', function ($query) {
+                    $query->with('reviews')
+                        ->where('review_date', null)
+                        ->where('review_score', 0)
+                        ->where('is_active', true);
+                })
+                ->firstOrFail();
+            $cards = $user_with_cards->cards;
+            return $this->sendResponse(CardRessource::collection($cards), 'Cards retrieved successfully.');
+        }catch (ModelNotFoundException $exception) {
+            return $this->sendError('There is no carte to learn or the user is not found', (array)$exception->getMessage(), 404);
+        }
+    }
 }
