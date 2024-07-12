@@ -62,6 +62,9 @@ class FolderPolicy
 
     private function ownFolder($folder_parent_id, $user)
     {
+        if ($folder_parent_id === null) {
+            return true;
+        }
         $folder = Folder::findOrFail($folder_parent_id);
         return $folder->created_by_user === $user->id;
     }

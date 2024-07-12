@@ -50,7 +50,7 @@ class RegisterController extends BaseController
     {
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
-        $input['role'] = 1;
+        $input['role'] = 'user';
         $input['status'] = "active";
         $user = User::create($input);
         $success['token'] = $user->createToken('MyApp')->plainTextToken;

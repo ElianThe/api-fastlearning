@@ -127,7 +127,7 @@ class CardController extends BaseController
                 'user_id' => auth()->user()->id,
                 'card_id' => $card->id,
                 'is_active' => true,
-                'review_date' => now(),
+                'review_date' => null,
                 'review_score' => 0
             ]);
             return $this->sendResponse(new CardRessource($card), 'Card created successfully.', 201);
