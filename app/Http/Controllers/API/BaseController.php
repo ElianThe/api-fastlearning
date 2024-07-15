@@ -10,6 +10,7 @@ class BaseController extends Controller
      * success response method
      * @param $result
      * @param $message
+     * @param $status
      * @return JsonResponse
      */
     public function sendResponse($result, $message, $status=200): JsonResponse
