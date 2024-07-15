@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
+//Route de test
+Route::get('test' , function (){
+    $data = \Illuminate\Support\Facades\DB::table('users')->get();
+    return response()->json(['data' => $data]);
+});
+
 Route::middleware('auth:sanctum')->group(function () {
     //USERS
     Route::resource('users', \App\Http\Controllers\API\UserController::class);
