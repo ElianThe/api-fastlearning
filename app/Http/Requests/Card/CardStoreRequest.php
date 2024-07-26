@@ -23,8 +23,8 @@ class CardStoreRequest extends FormRequest
     {
         return [
             'title' => 'min:3|max:255|string',
-            'content' => 'string',
-            'image_path' => 'string',
+            'content' => 'nullable|string',
+            'image_path' => 'nullable|image|mimes:jpeg,png,jpg,svg',
             'folder_id' => 'numeric|exists:folders,id',
         ];
     }

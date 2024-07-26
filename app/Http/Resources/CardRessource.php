@@ -18,7 +18,7 @@ class CardRessource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'content' => $this->content,
-            'image_path' => $this->image_path,
+            'image_url' => $this->image_url,
             'folder_id' => $this->folder_id,
             'created_at' => $this->created_at->format('d/m/Y'),
             'updated_at' => $this->updated_at->format('d/m/Y'),

@@ -24,7 +24,7 @@ class CardUpdateRequest extends FormRequest
         return [
             'title' => 'min:3|max:255|string',
             'content' => 'string',
-            'image_path' => 'string',
+            'image_path' => 'image|mimes:jpeg,png,jpg,svg',
             'folder_id' => 'numeric|exists:folders,id',
         ];
     }

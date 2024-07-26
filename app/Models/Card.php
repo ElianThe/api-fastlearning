@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Card extends Model
 {
@@ -30,5 +31,10 @@ class Card extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function getImageUrlAttribute()
+    {
+        return Storage::disk('public')->url($this->image_path);
     }
 }

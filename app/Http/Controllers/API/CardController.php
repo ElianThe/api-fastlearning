@@ -12,6 +12,8 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class CardController extends BaseController
 {
@@ -119,8 +121,16 @@ class CardController extends BaseController
             // authorise ou non la création de cette carte
             Gate::authorize('create', [Card::class, $validatedData['folder_id']]);
 
+            $image_path = Str::random(32). '.' . $request['image_path']->getClientOriginalExtension();
+            Storage::disk('public')->put($image_path, file_get_contents($validatedData['image_path']->path()));
+
             // création de la carte
-            $card = Card::create($validatedData);
+            $card = Card::create([
+                'title' => $validatedData['title'],
+                'content' => $validatedData['content'],
+                'image_path' => $image_path,
+                'folder_id' => $validatedData['folder_id']
+            ]);
 
             //création d'une review pour la carte
             Review::create([
@@ -224,7 +234,7 @@ class CardController extends BaseController
      *           @OA\JsonContent(
      *               @OA\Property(property="title", type="string",description="",example="Nouveau Titre"),
      *               @OA\Property(property="content", type="string",description="",example="Contenu de la carte"),
-     *               @OA\Property(property="image_path", type="boolean",description="",example="/tmp/fakerFB2HTD"),
+     *               @OA\Property(property="image_path", type="",description="",example="/tmp/fakerFB2HTD"),
      *               @OA\Property(property="folder_id", type="integer",description="",example=1),
      *           ),
      *     ),
@@ -282,6 +292,12 @@ class CardController extends BaseController
             $request_folder_id = null;
             if (isset($validatedData['folder_id'])) {
                 $request_folder_id = $validatedData['folder_id'];
+            }
+
+            if (isset($validatedData['image_path'])) {
+                $image_path = Str::random(32). '.' . $request['image_path']->getClientOriginalExtension();
+                Storage::disk('public')->put($image_path, file_get_contents($validatedData['image_path']->path()));
+                $validatedData['image_path'] = $image_path;
             }
 
             Gate::authorize('update', [Card::class, $card->folder->id,  $request_folder_id]);
