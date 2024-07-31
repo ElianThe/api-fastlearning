@@ -28,6 +28,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('updateDateReview', [\App\Http\Controllers\API\ReviewController::class, 'updateDateReview']);
 });
 
-/*Route::post('register', [RegisterController::class, 'register']);*/
+Route::post('register', [RegisterController::class, 'register']);
 Route::post('login', [RegisterController::class, 'login']);
 Route::post('logout', [RegisterController::class, 'logout']);
