@@ -6,6 +6,7 @@ use App\Http\Requests\Folder\FolderStoreRequest;
 use App\Http\Requests\Folder\FolderUpdateRequest;
 use App\Http\Resources\FolderResource;
 use App\Models\Folder;
+use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Gate;
 
@@ -103,6 +104,7 @@ class FolderController extends BaseController
             $folder->created_by_user = auth()->user()->id;
             Gate::authorize('create', [Folder::class ,$folder]);
             $folder->save();
+            $folder->users()->attach(auth()->user()->id);
             return $this->sendResponse(new FolderResource($folder), 'Folder created successfully.', 201);
         } catch (\Exception $e) {
             return $this->sendError('Card creation failed!', [$e->getMessage()], 500);
@@ -304,6 +306,35 @@ class FolderController extends BaseController
             return $this->sendError('Folder not found', (array)$e->getMessage(), 404);
         } catch (\Exception $e) {
             return $this->sendError('Folder deletion failed!', [$e->getMessage()], 500);
+        }
+    }
+
+    /** @OA\Get(
+     *      path="/folders-of-user",
+     *      summary="Permet de récupérer l'ensemble des dossiers en fonction d'un utilisateur.",
+     *      description="Permet de récupérer l'ensemble des dossiers en fonction d'un utilisateur.",
+     *      operationId="foldersByUser",
+     *      tags={"Dossier"},
+     *      security={{ "sanctum": {} }},
+     *      @OA\Response(
+     *           response=200,
+     *           description="Successful operation",
+     *           @OA\MediaType(mediaType="application/json")
+     *      ),
+     *      @OA\Response(
+     *           response=401,
+     *           description="Unauthorized",
+     *           @OA\MediaType(mediaType="application/json")
+     *      ),
+     * )
+     */
+    public function indexByUser()
+    {
+        try {
+            $folders = User::where('id', auth()->user()->id)->firstOrFail()->folders;
+            return $this->sendResponse(FolderResource::collection($folders), 'folders retrieved successfully.');
+        } catch (\Exception $e) {
+            return $this->sendError('Folder retrieval failed!', [$e->getMessage()], 500);
         }
     }
 }

@@ -865,6 +865,35 @@
                 ]
             }
         },
+        "/folders-of-user": {
+            "get": {
+                "tags": [
+                    "Dossier"
+                ],
+                "summary": "Permet de récupérer l'ensemble des dossiers en fonction d'un utilisateur.",
+                "description": "Permet de récupérer l'ensemble des dossiers en fonction d'un utilisateur.",
+                "operationId": "foldersByUser",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/register": {
             "post": {
                 "tags": [
