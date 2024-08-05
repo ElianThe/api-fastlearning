@@ -365,20 +365,12 @@ class CardController extends BaseController
     }
 
     /** @OA\Get(
-     *      path="/users/{id}/cards",
+     *      path="/cards-of-user",
      *      summary="Permet de récupérer l'ensemble des cartes en fonction d'un utilisateur.",
      *      description="Permet de récupérer l'ensemble des cartes en fonction d'un utilisateur.",
      *      operationId="cardsByUser",
      *      tags={"Carte"},
      *      security={{ "sanctum": {} }},
-     *      @OA\Parameter(
-     *           description="id de l'utilisateur",
-     *           in="path",
-     *           name="id",
-     *           required=true,
-     *           example="11",
-     *           @OA\Schema(type="integer")
-     *      ),
      *      @OA\Parameter(
      *           description="ajout des dossier avec les cartes",
      *           in="query",
@@ -421,10 +413,10 @@ class CardController extends BaseController
      *      ),
      * )
      */
-    public function indexByUser(int $id) : JsonResponse
+    public function indexByUser() : JsonResponse
     {
         try {
-            $user_with_cards = User::where('id', $id)
+            $user_with_cards = User::where('id', auth()->user()->id)
                 ->with('cards')
                 ->firstOrFail();
 
@@ -438,20 +430,12 @@ class CardController extends BaseController
     }
 
     /** @OA\Get(
-     *      path="/users/{id}/cards-to-review",
+     *      path="/cards-to-review",
      *      summary="Permet de récupérer l'ensemble des cartes à réviser en fonction d'un utilisateur.",
      *      description="Permet de récupérer l'ensemble des cartes à réviser en fonction d'un utilisateur. Les cartes sont affichés par ordre croissant de date de révision. ça veut dire que la première carte affiché à apprendre est celle qui date la plus.",
      *      operationId="cardsReviewsByUser",
      *      tags={"Carte"},
      *      security={{ "sanctum": {} }},
-     *      @OA\Parameter(
-     *           description="id de l'utilisateur",
-     *           in="path",
-     *           name="id",
-     *           required=true,
-     *           example="1",
-     *           @OA\Schema(type="integer")
-     *      ),
      *     @OA\Parameter(
      *           description="ajout des dossier avec les cartes",
      *           in="query",
@@ -494,10 +478,10 @@ class CardController extends BaseController
      *      ),
      * )
      */
-    public function indexByUserAndReviews(int $id) : JsonResponse
+    public function indexByUserAndReviews() : JsonResponse
     {
         try {
-            $user_with_cards = User::where('id', $id)
+            $user_with_cards = User::where('id', auth()->user()->id)
                 ->withWhereHas('cards', function ($query) {
                     $query->with('reviews')
                         ->where('review_date', '<', now())

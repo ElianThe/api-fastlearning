@@ -17,6 +17,9 @@
         {
             "url": "http://localhost:80/api",
             "description": "Serveur API Rest"
+        },
+        {
+            "url": "http://localhost:80/api"
         }
     ],
     "paths": {
@@ -314,7 +317,7 @@
                                     },
                                     "image_path": {
                                         "description": "",
-                                        "type": "boolean",
+                                        "type": "",
                                         "example": "/tmp/fakerFB2HTD"
                                     },
                                     "folder_id": {
@@ -373,7 +376,7 @@
                 ]
             }
         },
-        "/users/{id}/cards": {
+        "/cards-of-user": {
             "get": {
                 "tags": [
                     "Carte"
@@ -382,16 +385,6 @@
                 "description": "Permet de récupérer l'ensemble des cartes en fonction d'un utilisateur.",
                 "operationId": "cardsByUser",
                 "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id de l'utilisateur",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "example": "11"
-                    },
                     {
                         "name": "folder",
                         "in": "query",
@@ -444,7 +437,7 @@
                 ]
             }
         },
-        "/users/{id}/cards-to-review": {
+        "/cards-to-review": {
             "get": {
                 "tags": [
                     "Carte"
@@ -453,16 +446,6 @@
                 "description": "Permet de récupérer l'ensemble des cartes à réviser en fonction d'un utilisateur. Les cartes sont affichés par ordre croissant de date de révision. ça veut dire que la première carte affiché à apprendre est celle qui date la plus.",
                 "operationId": "cardsReviewsByUser",
                 "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "id de l'utilisateur",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "example": "1"
-                    },
                     {
                         "name": "folder",
                         "in": "query",
