@@ -24,8 +24,6 @@ class RegisterRequest extends FormRequest
         return [
             'email' => 'required|email|unique:users,email',
             'username' => 'required|unique:users,username',
-            'first_name' => 'required',
-            'last_name' => "required",
             'password' => 'required',
         ];
     }
