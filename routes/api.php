@@ -17,6 +17,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('folders', \App\Http\Controllers\API\FolderController::class);
     Route::get('folders-of-user', [\App\Http\Controllers\API\FolderController::class, 'indexByUser']);
 
+    Route::get('folders/{id}/cards', [\App\Http\Controllers\API\CardController::class, 'cardsOfFolder']);
+
     //CARDS
     Route::resource('cards', \App\Http\Controllers\API\CardController::class);
     Route::get('cards-of-user', [\App\Http\Controllers\API\CardController::class, 'indexByUser']);

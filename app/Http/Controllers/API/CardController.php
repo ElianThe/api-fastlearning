@@ -6,6 +6,7 @@ use App\Http\Requests\Card\CardStoreRequest;
 use App\Http\Requests\Card\CardUpdateRequest;
 use App\Http\Resources\CardRessource;
 use App\Models\Card;
+use App\Models\Folder;
 use App\Models\Review;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -532,6 +533,48 @@ class CardController extends BaseController
             return $this->sendResponse(CardRessource::collection($cards), 'Cards retrieved successfully.');
         }catch (ModelNotFoundException $exception) {
             return $this->sendError('There is no carte to learn or the user is not found', (array)$exception->getMessage(), 404);
+        }
+    }
+    /** @OA\Get(
+     *      path="/folders/{id}/cards",
+     *      summary="Permet de récupérer l'ensemble des cartes d'un dossier",
+     *      description="Permet de récupérer l'ensemble des cartes d'un dossier",
+     *      operationId="cardsByFolder",
+     *      tags={"Carte"},
+     *      security={{ "sanctum": {} }},
+     *      @OA\Parameter(
+     *           description="id du dossier",
+     *           in="path",
+     *           name="id",
+     *           required=true,
+     *           example="1",
+     *           @OA\Schema(
+     *                type="integer"
+     *           )
+     *      ),
+     *      @OA\Response(
+     *           response=200,
+     *           description="Successful operation",
+     *           @OA\MediaType(mediaType="application/json")
+     *      ),
+     *      @OA\Response(
+     *           response=401,
+     *           description="Unauthorized",
+     *           @OA\MediaType(mediaType="application/json")
+     *      ),
+     * )
+     */
+    public function cardsOfFolder(int $id)
+    {
+        try {
+            $folder = Folder::where('id', $id)
+                ->firstOrFail();
+            $cards = $folder->cards;
+            return $this->sendResponse(CardRessource::collection($cards), 'folders retrieved successfully.');
+        } catch (ModelNotFoundException $e) {
+            return $this->sendError('Folder not found', [$e->getMessage()], 404);
+        } catch (\Exception $e) {
+            return $this->sendError('Folder retrieval failed!', [$e->getMessage()], 500);
         }
     }
 }

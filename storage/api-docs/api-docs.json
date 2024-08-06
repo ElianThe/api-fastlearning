@@ -527,6 +527,47 @@
                 ]
             }
         },
+        "/folders/{id}/cards": {
+            "get": {
+                "tags": [
+                    "Carte"
+                ],
+                "summary": "Permet de récupérer l'ensemble des cartes d'un dossier",
+                "description": "Permet de récupérer l'ensemble des cartes d'un dossier",
+                "operationId": "cardsByFolder",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id du dossier",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "1"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/folders": {
             "get": {
                 "tags": [
