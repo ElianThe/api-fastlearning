@@ -1,14 +1,15 @@
 # API FAST LEARNING :
 
-<a href="https://api-fast-learning.fr/api/documentation" target="_blank">
+L’application “Fast learning” est une application qui permet d’apprendre du vocabulaire grâce au système de cartes-mémoire avec des espacements pour pouvoir retenir sur le long terme. Cela repose sur des concepts de science cognitive et de psychologie.
+
+
+<a href="https://api-fast-learning.fr/api/documentation" target="_blank">API FAST LEARNING</a>
 
 ## About the project :
 
-# Authentification : Sanctum
-
-## les plus : 
+### Authentification : Sanctum
 - simple et léger
-- support des applications SPA et API (authentification sans état )
+- support des applications SPA et API (authentification sans état)
 - génère facilement les tokens
 - chaque token a des permissions
 - authentification multi-dispositifs (android, ios, web, etc.)
