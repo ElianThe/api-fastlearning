@@ -122,8 +122,12 @@ class CardController extends BaseController
             // authorise ou non la création de cette carte
             Gate::authorize('create', [Card::class, $validatedData['folder_id']]);
 
-            $image_path = Str::random(32). '.' . $request['image_path']->getClientOriginalExtension();
-            Storage::disk('public')->put($image_path, file_get_contents($validatedData['image_path']->path()));
+            if (! is_null($request['image_path'])) {
+                $image_path = Str::random(32). '.' . $request['image_path']->getClientOriginalExtension();
+                Storage::disk('public')->put($image_path, file_get_contents($validatedData['image_path']->path()));
+            } else {
+                $image_path = null;
+            }
 
             // création de la carte
             $card = Card::create([

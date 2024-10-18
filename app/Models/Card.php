@@ -35,6 +35,10 @@ class Card extends Model
 
     public function getImageUrlAttribute()
     {
-        return Storage::disk('public')->url($this->image_path);
+        if(!is_null($this->image_path)) {
+            return Storage::disk('public')->url($this->image_path);
+        } else {
+            return null;
+        }
     }
 }
