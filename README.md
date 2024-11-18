@@ -4,14 +4,17 @@
 <a href="https://api-fast-learning.fr/api/documentation" target="_blank">API FAST LEARNING</a>
 ![](public/screenSwaggerApi.jpg)
 
+## Les prerequis 
+- avoir php avec les extensions nécessaires
+- avoir composer 
+
 ## Les instructions d'installation du projet :
 - Cloner le projet
 - Installer les dépendances : `composer install` `npm install`
 - Créer un fichier .env : `cp .env.example .env`
 - Générer une clé d'application : `php artisan key:generate` 
 - Installer Laravel Sail : `php artisan sail:install`
-- Lancer Sail : `./vendor/bin/sail up` ou `bash ./vendor/laravel/sail/bin/sail up -d` pour windows
--  Créer un alias pour Sail : `alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'`
+- Créer un alias pour Sail : `alias sail='sh $([ -f sail ] && echo sail || echo vendor/bin/sail)'`
 - Lancer le docker : `sail up -d`
 - Migrer la base de données : `sail artisan migrate`
 
