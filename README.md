@@ -2,7 +2,13 @@
 
 ## L'api de Fast Learning alimente l'application mobile. Ci-dessous, voici le lien de la documentation de l'API :
 <a href="https://api-fast-learning.fr/api/documentation" target="_blank">API FAST LEARNING</a>
-![](public/screenSwaggerApi.jpg)
+[![Swagger Documentation](public/screenSwaggerApi.jpg)](https://api-fast-learning.fr/api/documentation)
+
+## Les technologies utilisées 
+- Php avec Laravel
+- l'ORM Eloquent
+- Utilisation de Sail pour lancer l'application sous docker 
+- Swagger pour documenter l'api
 
 ## Les prerequis 
 - avoir php avec les extensions nécessaires
