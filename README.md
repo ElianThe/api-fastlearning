@@ -1,20 +1,22 @@
-# API FAST LEARNING :
+# API FAST LEARNING
+Fast Learning est une plateforme éducative innovante. Cette API alimente l'application mobile Fast Learning
+Vous trouverez ci-dessous la documentation, les technologies utilisées, et les étapes nécessaires pour configurer et exécuter ce projet.
 
-## L'api de Fast Learning alimente l'application mobile. Ci-dessous, voici le lien de la documentation de l'API :
-<a href="https://api-fast-learning.fr/api/documentation" target="_blank">API FAST LEARNING</a>
+## Documentation de l'API
+La documentation de l'API est disponible sur Swagger. Cliquez sur l'image ci-dessous pour y accéder :
 [![Swagger Documentation](public/screenSwaggerApi.jpg)](https://api-fast-learning.fr/api/documentation)
 
-## Les technologies utilisées 
-- Php avec Laravel
-- l'ORM Eloquent
-- Utilisation de Sail pour lancer l'application sous docker 
-- Swagger pour documenter l'api
+## Les technologies utilisées
+- **PHP** et **Laravel**
+- **Docker** : via Laravel Sail
+- **Swagger** pour documenter l'API
 
-## Les prerequis 
-- avoir php avec les extensions nécessaires
-- avoir composer 
+## Les prérequis
+- **PHP** >= 8.2 avec les extensions suivantes (`ext-dom`, `ext-xml`, `ext-curl`, `mbstring`, `zip`)
+- **Composer** 
+- **Docker** et **Docker compose**
 
-## Les instructions d'installation du projet :
+## Les instructions d'installation du projet 
 - Cloner le projet
 - Installer les dépendances : `composer install` `npm install`
 - Créer un fichier .env : `cp .env.example .env`
